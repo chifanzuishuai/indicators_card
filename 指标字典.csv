@@ -1,0 +1,744 @@
+﻿指标类型,指标编码,指标名称,指标属性,指标目录,业务口径,分析维度,计量单位,计量精度,更新频率,使用部门,应用范围,版本号,业务人员,归属部门,技术人员,归属处室,取整方式,依赖指标,相关存过,数据源库,数据源表,指标加工SQL
+原子指标,Y1001,承保规模保费,原子指标,/营销事业群/原子指标,"承保规模保费指承保保单的期缴标准保费,期缴弱体加费,期缴职业加费之和；承保日期取与延迟承保两者中较大的值；",承保日期，预收日期，险种，险种状态，四级机构，缴费频率，缴费年期,元,2,实时,营销事业群,各部门,1,待定,营销事业群,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_nogg.uw_apply_incept，hx_nogg.uw_apply_handin，hx_xgogg.laagent,"create table hx_dm.index_y1001 as
+
+with tmp_lyb_yxfyb_zb1_02 as 
+(
+  select 
+     a.agent_no,
+     a.policy_no,
+     a.issue_date,
+     b.apply_bar_code,
+     b.created_date,
+     d.product_code,
+     d.duty_status product_duty_status,
+     d.lapse_reason,
+     c.prem_frequency, 
+     c.prem_period, --  交费年期
+     c.period_standard_prem,
+     c.period_weak_add_prem,
+     c.period_occu_add_prem,
+     d.prod_seq,
+     c.apply_status
+    from hx_nogg.policy a
+   inner join hx_nogg.policy_product d on a.policy_no = d.policy_no
+    left join hx_nogg.uw_apply_info b  on a.apply_no = b.apply_no
+    left join hx_nogg.uw_apply_product c  on c.apply_no = b.apply_no and c.prod_seq = d.prod_seq
+   where 1=1 /*and a.policy_no = '8808127124225588'*/ and a.channel_type in ('02','05','06') ,
+    
+  tmp_lyb_yxfyb_zb1_04 as (  
+  
+  select b.policy_no,
+         case
+           when nvl(c.delaydate, d.delaydate) > a.issue_date then
+            nvl(c.delaydate, d.delaydate)
+           else
+            a.issue_date
+         end delaydate,
+         nvl(c.delaydate, d.delaydate) receive_date
+    from hx_nogg.uw_apply_info b
+    left join hx_nogg.policy a on a.policy_no = b.policy_no
+    left join hx_nogg.uw_apply_incept c --微投延迟承保日期
+      on c.document_id = b.apply_bar_code
+    left join hx_nogg.uw_apply_handin d --核心延迟承保日期
+      on b.apply_bar_code = d.apply_bar_code
+  /* where b.policy_no = '8808127124225588'*/)
+
+ select  /*+parallel(16)*/m1.policy_no,
+         m1.apply_bar_code,
+         m1.product_code,
+         m1.prod_seq,
+         trunc(m2.delaydate) issue_date, -- 承保日期
+         trunc(nvl(m2.receive_date, m1.created_date)) receive_date, --预收日期
+         case
+           when m1.product_duty_status = '1' then
+            '1'
+           else
+            nvl(m1.lapse_reason, m1.apply_status)
+         end apply_status_code, 
+         m3.managecom saledeptcode, 
+         m1.prem_frequency frequency,
+         m1.prem_period,
+         case
+           when m1.apply_status = '09' then (m1.period_standard_prem + m1.period_weak_add_prem + m1.period_occu_add_prem)
+         end y1001 --  承保规模保费
+       
+    from tmp_lyb_yxfyb_zb1_02 m1
+    left join tmp_lyb_yxfyb_zb1_04 m2 on m2.policy_no = m1.policy_no
+    left join hx_xgogg.laagent m3 on m3.agentcode = m1.agent_no
+   where  1=1 
+   --and m1.policy_no='8808127124225588'
+   ;"
+原子指标,Y1002,承保标准保费,原子指标,/营销事业群/原子指标,承保标准保费指承保保单的标准保费；承保日期取与延迟承保两者中较大的值；,承保日期，预收日期，险种，险种状态，四级机构，缴费频率，缴费年期,元,2,实时,营销事业群,各部门,1,待定,营销事业群,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_nogg.uw_apply_incept，hx_nogg.uw_apply_handin，hx_xgogg.laagent,"
+create table hx_dm.index_y1002 as
+
+with tmp_lyb_yxfyb_zb1_02 as 
+(
+  select 
+     a.agent_no,
+     a.policy_no,
+     a.issue_date,
+     b.apply_bar_code,
+     b.created_date,
+     d.product_code,
+     d.duty_status product_duty_status,
+     d.lapse_reason,
+     c.prem_frequency, 
+     c.prem_period, --  交费年期
+     c.equivalent_prem,
+     d.prod_seq,
+     c.apply_status
+    from hx_nogg.policy a
+   inner join hx_nogg.policy_product d on a.policy_no = d.policy_no
+    left join hx_nogg.uw_apply_info b  on a.apply_no = b.apply_no
+    left join hx_nogg.uw_apply_product c  on c.apply_no = b.apply_no and c.prod_seq = d.prod_seq
+   where 1=1 /*and a.policy_no = '8808127124225588'*/ and a.channel_type in ('02','05','06')  ),
+    
+  tmp_lyb_yxfyb_zb1_04 as (  
+  
+  select b.policy_no,
+         case
+           when nvl(c.delaydate, d.delaydate) > a.issue_date then
+            nvl(c.delaydate, d.delaydate)
+           else
+            a.issue_date
+         end delaydate,
+         nvl(c.delaydate, d.delaydate) receive_date
+    from hx_nogg.uw_apply_info b
+    left join hx_nogg.policy a on a.policy_no = b.policy_no
+    left join hx_nogg.uw_apply_incept c --微投延迟承保日期
+      on c.document_id = b.apply_bar_code
+    left join hx_nogg.uw_apply_handin d --核心延迟承保日期
+      on b.apply_bar_code = d.apply_bar_code
+  /* where b.policy_no = '8808127124225588'*/)
+
+ select  /*+parallel(16)*/m1.policy_no,
+         m1.apply_bar_code,
+         m1.product_code,
+         m1.prod_seq,
+         trunc(m2.delaydate) issue_date, -- 承保日期
+         trunc(nvl(m2.receive_date, m1.created_date)) receive_date, --预收日期
+         case
+           when m1.product_duty_status = '1' then
+            '1'
+           else
+            nvl(m1.lapse_reason, m1.apply_status)
+         end apply_status_code, 
+         m3.managecom saledeptcode, 
+         m1.prem_frequency frequency,
+         m1.prem_period,
+         equivalent_prem y1002 --  承保标准保费
+       
+    from tmp_lyb_yxfyb_zb1_02 m1
+    left join tmp_lyb_yxfyb_zb1_04 m2 on m2.policy_no = m1.policy_no
+    left join hx_xgogg.laagent m3 on m3.agentcode = m1.agent_no
+   where  1=1 
+   --and m1.policy_no='8808127124225588'
+   ;"
+原子指标,Y1003,犹退规模保费,原子指标,/营销事业群/原子指标,犹退规模保费指保单犹豫期退保所退的保费；若犹豫期退保日期小于保单生效日期则选取保单生效日期，否则选取其本身；其中保单生效日期考虑了延迟生效的情况；,犹退日期，险种，险种状态，四级机构，缴费频率，缴费年期,元,2,实时,营销事业群,各部门,1,待定,营销事业群,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_product，hx_nogg.uw_apply_info，hx_xgogg.laagent，hx_nogg.uw_apply_incept，hx_nogg.uw_apply_handin,"# 需要更新代码
+
+create table hx_dm.index_y1003 as
+
+with tmp_lyb_yxfyb_zb1_02 as 
+(
+  select 
+     a.agent_no,
+     a.policy_no,
+     a.issue_date,
+     b.apply_bar_code,
+     b.created_date,
+     d.product_code,
+     d.duty_status product_duty_status,
+     d.lapse_reason,
+     c.prem_frequency, 
+     c.prem_period, --  交费年期
+     c.period_standard_prem,
+     c.period_weak_add_prem,
+     c.period_occu_add_prem,
+     d.prod_seq,
+     c.apply_status
+    from hx_nogg.policy a
+   inner join hx_nogg.policy_product d on a.policy_no = d.policy_no
+    left join hx_nogg.uw_apply_info b  on a.apply_no = b.apply_no
+    left join hx_nogg.uw_apply_product c  on c.apply_no = b.apply_no and c.prod_seq = d.prod_seq
+   where 1=1 /*and a.policy_no = '8808127124225588'*/ and a.channel_type in ('02','05','06') and 
+   exists (select 1
+            from hx_dm.tmp_lyb_yxfyb_zb1_01 mm
+           where mm.policy_no = a.policy_no
+             and mm.stepflag in ('1','2', '4')) )
+
+ select  /*+parallel(16)*/m1.policy_no,
+         m1.apply_bar_code,
+         m1.product_code,
+         m1.prod_seq,
+         (select tm.confirmed_date
+            from (select /*+parallel(4)*/
+                   b.apply_bar_code,
+                   a.service_items,
+                   trunc(max(a.confirmed_date)) confirmed_date
+                    from hx_nogg.pos_info a, hx_nogg.uw_apply_info b
+                   where a.policy_no = b.policy_no
+                   group by b.apply_bar_code, a.service_items) tm
+           where tm.apply_bar_code = m1.apply_bar_code
+             and m1.lapse_reason = '1'
+             and tm.service_items = '1') yt_date, --  犹退日期 
+         case
+           when m1.product_duty_status = '1' then
+            '1'
+           else
+            nvl(m1.lapse_reason, m1.apply_status)
+         end apply_status_code, 
+         m3.managecom saledeptcode, 
+         m1.prem_frequency frequency,
+         m1.prem_period,
+         case
+           when m1.apply_status = '09' then (m1.period_standard_prem + m1.period_weak_add_prem + m1.period_occu_add_prem)
+         end y1003 --  犹退规模保费
+       
+    from tmp_lyb_yxfyb_zb1_02 m1
+    left join hx_xgogg.laagent m3 on m3.agentcode = m1.agent_no
+   where  1=1 
+   --and m1.policy_no='8808127124225588'
+   ;"
+原子指标,Y1004,犹退标准保费,原子指标,/营销事业群/原子指标,犹退标准保费指保单犹豫期退保所退的保费；若犹豫期退保日期小于保单生效日期则选取保单生效日期，否则选取其本身；其中保单生效日期考虑了延迟生效的情况；,犹退日期，险种，险种状态，四级机构，缴费频率，缴费年期,元,2,实时,营销事业群,各部门,1,待定,营销事业群,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_product，hx_nogg.uw_apply_info，hx_xgogg.laagent，hx_nogg.uw_apply_incept，hx_nogg.uw_apply_handin,"# 需要更新代码
+
+create table hx_dm.index_y1004 as
+
+with tmp_lyb_yxfyb_zb1_02 as 
+(
+  select 
+     a.agent_no,
+     a.policy_no,
+     a.issue_date,
+     b.apply_bar_code,
+     b.created_date,
+     d.product_code,
+     d.duty_status product_duty_status,
+     d.lapse_reason,
+     c.prem_frequency, 
+     c.prem_period, --  交费年期
+     c.equivalent_prem,
+     d.prod_seq,
+     c.apply_status
+    from hx_nogg.policy a
+   inner join hx_nogg.policy_product d on a.policy_no = d.policy_no
+    left join hx_nogg.uw_apply_info b  on a.apply_no = b.apply_no
+    left join hx_nogg.uw_apply_product c  on c.apply_no = b.apply_no and c.prod_seq = d.prod_seq
+   where 1=1 /*and a.policy_no = '8808127124225588'*/ and a.channel_type in ('02','05','06') and 
+   exists (select 1
+            from hx_dm.tmp_lyb_yxfyb_zb1_01 mm
+           where mm.policy_no = a.policy_no
+             and mm.stepflag in ('1','2', '4')) )
+             
+ select  /*+parallel(16)*/m1.policy_no,
+         m1.apply_bar_code,
+         m1.product_code,
+         m1.prod_seq,
+         (select tm.confirmed_date
+            from (select /*+parallel(4)*/
+                   b.apply_bar_code,
+                   a.service_items,
+                   trunc(max(a.confirmed_date)) confirmed_date
+                    from hx_nogg.pos_info a, hx_nogg.uw_apply_info b
+                   where a.policy_no = b.policy_no
+                   group by b.apply_bar_code, a.service_items) tm
+           where tm.apply_bar_code = m1.apply_bar_code
+             and m1.lapse_reason = '1'
+             and tm.service_items = '1') yt_date, --  犹退日期 
+         case
+           when m1.product_duty_status = '1' then
+            '1'
+           else
+            nvl(m1.lapse_reason, m1.apply_status)
+         end apply_status_code, 
+         m3.managecom saledeptcode, 
+         m1.prem_frequency frequency,
+         m1.prem_period,
+         equivalent_prem y1004 --  承保标准保费
+       
+    from tmp_lyb_yxfyb_zb1_02 m1
+    left join hx_xgogg.laagent m3 on m3.agentcode = m1.agent_no
+   where  1=1 
+   --and m1.policy_no='8808127124225588'
+   ;"""
+原子指标,Y1005,未承保规模保费,原子指标,/营销事业群/原子指标,"承保规模保费指未承保保单的期缴标准保费,期缴弱体加费,期缴职业加费之和；承保日期取与延迟承保两者中较大的值；",承保日期，预收日期，险种，险种状态，四级机构，缴费频率，缴费年期,元,2,实时,营销事业群,各部门,1,待定,营销事业群,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_nogg.policy，hx_nogg.uw_apply_incept，hx_nogg.uw_apply_handin，hx_fyb.t_application_main，hx_xgogg.laagent,"create table  hx_dm.index_y1005 as
+
+with tmp_lyb_yxfyb_zb1_02 as 
+( select /*+parallel (8)*/
+     b.agent_no,
+     b.policy_no,
+     b.apply_bar_code,
+     b.created_date,
+     c.product_code,
+     c.apply_status product_duty_status,
+     c.prem_frequency, 
+     c.prem_period, --  交费年期
+     c.period_standard_prem,
+     c.period_weak_add_prem,
+     c.period_occu_add_prem,
+     c.prod_seq,
+     c.apply_status
+
+      from hx_nogg.uw_apply_info b
+      left join hx_nogg.uw_apply_product c on c.apply_no = b.
+      where b.apply_status != '09' ),
+   
+ tmp_lyb_yxfyb_zb1_04 as (
+
+    select nvl(c.delaydate, d.delaydate) receive_date ,
+         b.apply_bar_code,
+         case
+           when nvl(c.delaydate, d.delaydate) > a.issue_date then
+            nvl(c.delaydate, d.delaydate)
+           else
+            a.issue_date
+         end delaydate,
+         max(case
+           when e.designated_effective_date is not null then
+            to_date(e.designated_effective_date, 'yyyy-mm-dd')
+           else
+            to_date(e.apply_date, 'yyyy-mm-dd')
+         end) receive_date_wt   /*核心未承保部分数据使用的预收日期*/
+    from  hx_nogg.uw_apply_info b
+    left join hx_nogg.policy a on a.policy_no = b.policy_no
+    left join hx_nogg.uw_apply_incept c --微投延迟承保日期
+      on c.document_id = b.apply_bar_code
+    left join hx_nogg.uw_apply_handin d --核心延迟承保日期
+      on b.apply_bar_code = d.apply_bar_code
+    left join hx_fyb.t_application_main e on e.apply_status_desc <> '同步至服务平台' and e.is_replaced = 'n' and e.print_no = b.apply_bar_code
+   where 1=1
+     --and b.apply_bar_code = '2010011008534407'
+   group by b.apply_bar_code,nvl(c.delaydate, d.delaydate),a.issue_date,e.designated_effective_date )
+   
+   select m1.policy_no, --  保单号码
+          m1.apply_bar_code,
+          m1.product_code, --  险种代码
+          trunc(m2.delaydate) issue_date, -- 承保日期
+          trunc(nvl(nvl(m2.receive_date_wt, m2.receive_date), m1.created_date)) receive_date,
+          m1.apply_status apply_status_code,
+          m3.managecom saledeptcode, --  管理机构代码
+          m1.prem_frequency frequency,
+          m1.prem_period, --  交费年期
+          (m1.period_standard_prem + m1.period_weak_add_prem + m1.period_occu_add_prem) y1005
+   
+     from tmp_lyb_yxfyb_zb1_02 m1
+     left join tmp_lyb_yxfyb_zb1_04 m2
+       on m2.apply_bar_code = m1.apply_bar_code
+     left join hx_xgogg.laagent m3
+       on m3.agentcode = m1.agent_no
+   /*where m1.apply_bar_code = '2010011008534407'*/
+   ;"
+原子指标,Y1006,未承保标准保费,原子指标,/营销事业群/原子指标,承保标准保费指未承保保单的标准保费；承保日期取与延迟承保两者中较大的值；,承保日期，预收日期，险种，险种状态，四级机构，缴费频率，缴费年期,元,2,实时,营销事业群,各部门,1,待定,营销事业群,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_nogg.policy，hx_nogg.uw_apply_incept，hx_nogg.uw_apply_handin，hx_fyb.t_application_main，hx_xgogg.laagent,"create table  hx_dm.index_y1006 as
+
+with tmp_lyb_yxfyb_zb1_02 as 
+( select /*+parallel (8)*/
+     b.agent_no,
+     b.policy_no,
+     b.apply_bar_code,
+     b.created_date,
+     c.product_code,
+     c.apply_status product_duty_status,
+     c.prem_frequency, 
+     c.prem_period, --  交费年期
+     c.equivalent_prem,
+     c.prod_seq,
+     c.apply_status
+
+      from hx_nogg.uw_apply_info b
+      left join hx_nogg.uw_apply_product c on c.apply_no = b.apply_no 
+     where b.apply_status != '09'),
+   
+ tmp_lyb_yxfyb_zb1_04 as (
+
+    select nvl(c.delaydate, d.delaydate) receive_date ,
+         b.apply_bar_code,
+         case
+           when nvl(c.delaydate, d.delaydate) > a.issue_date then
+            nvl(c.delaydate, d.delaydate)
+           else
+            a.issue_date
+         end delaydate,
+         max(case
+           when e.designated_effective_date is not null then
+            to_date(e.designated_effective_date, 'yyyy-mm-dd')
+           else
+            to_date(e.apply_date, 'yyyy-mm-dd')
+         end) receive_date_wt   /*核心未承保部分数据使用的预收日期*/
+    from  hx_nogg.uw_apply_info b
+    left join hx_nogg.policy a on a.policy_no = b.policy_no
+    left join hx_nogg.uw_apply_incept c --微投延迟承保日期
+      on c.document_id = b.apply_bar_code
+    left join hx_nogg.uw_apply_handin d --核心延迟承保日期
+      on b.apply_bar_code = d.apply_bar_code
+    left join hx_fyb.t_application_main e on e.apply_status_desc <> '同步至服务平台' and e.is_replaced = 'n' and e.print_no = b.apply_bar_code
+   where 1=1
+     --and b.apply_bar_code = '2010011008534407'
+   group by b.apply_bar_code,nvl(c.delaydate, d.delaydate),a.issue_date,e.designated_effective_date )
+   
+   select m1.policy_no, --  保单号码
+          m1.apply_bar_code,
+          m1.product_code, --  险种代码
+          trunc(m2.delaydate) issue_date, -- 承保日期
+          trunc(nvl(nvl(m2.receive_date_wt, m2.receive_date), m1.created_date)) receive_date,
+          m1.apply_status apply_status_code,
+          m3.managecom saledeptcode, --  管理机构代码
+          m1.prem_frequency frequency,
+          m1.prem_period, --  交费年期
+          m1.equivalent_prem y1006
+   
+     from tmp_lyb_yxfyb_zb1_02 m1
+     left join tmp_lyb_yxfyb_zb1_04 m2
+       on m2.apply_bar_code = m1.apply_bar_code
+     left join hx_xgogg.laagent m3
+       on m3.agentcode = m1.agent_no
+   /*where m1.apply_bar_code = '2010011008534407'*/
+   ;"
+原子指标,Y1007,首年续期规模保费,原子指标,/营销事业群/原子指标,"首年续期规模保费指保单在首个保单年度内，除首次缴费外，缴费类型不在（'02F', '12F', '03F', '13F'）所缴的费用；仅统计短期险或险种为('121704', '121705', '121707')的保单；且将以下险种 ('111801','121704','121705','121809', '211612','221806','221808','511801','111604','121810', '121811','121706', '411701')的缴费频次置为趸交；",缴费日期，险种，险种状态，四级机构，缴费频率，缴费年期,元,2,实时,营销事业群,各部门,1,待定,营销事业群,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_nogg.rn_paid_info，hx_nogg.fin_amt_type，hx_xgogg.laagent，hx_fyb.d_product,"
+create table hx_dm.index_y1007  as
+
+with tmp_lyb_yxfyb_zb1_02 as (
+    select a.agent_no,
+           a.policy_no,
+           d.product_code,
+           d.duty_status product_duty_status,
+           d.lapse_reason,
+           c.prem_period,
+           d.prod_seq,
+           c.apply_status,
+           b.apply_bar_code
+      from hx_nogg.policy a
+     inner join hx_nogg.policy_product d on a.policy_no = d.policy_no
+      left join hx_nogg.uw_apply_info b on a.apply_no = b.apply_no
+      left join hx_nogg.uw_apply_product c on c.apply_no = b.apply_no and c.prod_seq = d.prod_seq
+     where 1 = 1
+       and a.channel_type in ('02', '05', '06')
+       /*and a.policy_no = '8808125858923188'*/
+       )
+select  /*+parallel(16)*/m1.policy_no,
+       m1.apply_bar_code,
+       m1.product_code,
+       rn.prod_seq,
+       trunc(rn.prem_actural_date) rn_actural_date, --实际缴费日期
+       case
+         when m1.product_duty_status = '1' then
+          '1'
+         else
+          nvl(m1.lapse_reason, m1.apply_status)
+       end apply_status_code,
+       m3.managecom saledeptcode,
+       rn.frequency,
+       m1.prem_period,
+       case
+         when rn.coverage_year <= 1 and rn.actural_pay_times >= 2 and
+              rn.amt_type not in ('02F', '12F', '03F', '13F') then
+          modal_total_prem * to_number(m2.payment_flag)
+         else
+          0
+       end y1007 
+  from hx_nogg.rn_paid_info rn
+ inner join tmp_lyb_yxfyb_zb1_02 m1 on rn.policy_no = m1.policy_no and rn.prod_seq = m1.prod_seq
+  left join hx_nogg.fin_amt_type m2 on rn.amt_type = m2.amt_type
+  left join hx_xgogg.laagent m3 on m3.agentcode = m1.agent_no
+  left join hx_fyb.d_product d on d.product_code = m1.product_code
+ where 1 = 1
+   --and trunc(rn.prem_actural_date) between date '2024-9-4' and date '2024-9-4'
+   and (d.description2 = '短期险' or d.product_code in ('121704', '121705', '121707'))
+   /*and rn.policy_no ='8808125858923188'*/
+   ;
+
+ update hx_dm.index_y1007 a set a.frequency = '0' 
+ where a.product_code in ('111801','121704','121705','121809', '211612','221806','221808','511801','111604','121810', '121811','121706', '411701');
+ commit;"
+原子指标,Y1008,续年续期规模保费,原子指标,,,,,,,,,,,,,,,,,,,
+原子指标,Y1009,追加保费,原子指标,/营销事业群/原子指标,"追加保费指根据保单保全追加保费的时间统计追加的费用；不统计趸交保单的情况；且将以下险种 ('111801','121704','121705','121809', '211612','221806','221808','511801','111604','121810', '121811','121706', '411701')的缴费频次置为趸交；",追加保费日期，险种，险种状态，四级机构，缴费频率，缴费年期,元,2,实时,营销事业群,各部门,1,待定,营销事业群,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.pos_accept_detail，hx_nogg.pos_info，hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_xgogg.laagent,"create table hx_dm.index_y1009  as
+
+with tmp_lyb_yxfyb_zb1_06 as  (
+  select 
+   a.pos_no,
+   a.object_value policy_no,
+   a.confirmed_date,
+   a.branch_code,
+   sum(case when item_no = '099' then pos_prem_sum else 0 end) as prod_seq,
+   sum(case when item_no = '100' then pos_prem_sum else 0 end) as prod_code,
+   sum(case when item_no = '045' then pos_prem_sum else 0 end) as pos_prem_sum
+
+    from (select pp.pos_no,
+                 pp.object_value,
+                 pp.item_no,
+                 to_number(pp.new_value) pos_prem_sum,
+                 trunc(pi.confirmed_date) confirmed_date,
+                 p.branch_code
+            from hx_nogg.pos_accept_detail pp,
+                 hx_nogg.pos_info          pi,
+                 hx_nogg.policy            p
+           where 1 = 1
+             and pi.pos_no = pp.pos_no
+             and pi.policy_no = p.policy_no
+             and pi.service_items = '35'
+             and pi.accept_status_code = 'e01'
+             and pp.pos_object = '1'
+             and pp.item_no in ('099', '100', '045')
+             and p.channel_type in ('02', '05', '06')
+             /*and p.policy_no = '8808111058898688'*/
+             --and pi.confirmed_date between date '2024-9-4' and date '2024-9-4'
+              ) a
+   group by a.pos_no, a.object_value,a.confirmed_date,a.branch_code),
+    
+   tmp_lyb_yxfyb_zb1_02 as  (
+    select a.agent_no,
+           a.policy_no,
+           d.product_code,
+           d.duty_status product_duty_status,
+           d.lapse_reason,
+           c.prem_period,
+           d.prod_seq,
+           c.apply_status,
+           b.apply_bar_code,
+           c.prem_frequency
+      from hx_nogg.policy a
+     inner join hx_nogg.policy_product d on a.policy_no = d.policy_no
+      left join hx_nogg.uw_apply_info b on a.apply_no = b.apply_no
+      left join hx_nogg.uw_apply_product c on c.apply_no = b.apply_no and c.prod_seq = d.prod_seq
+     where 1 = 1
+       and a.channel_type in ('02', '05', '06')
+       /*and a.policy_no = '8808111058898688'*/)
+
+select  /*+parallel(16)*/m1.policy_no,
+       m1.apply_bar_code,
+       m1.product_code,
+       m1.prod_seq,
+       m0.confirmed_date add_prem_date, 
+       case
+         when m1.product_duty_status = '1' then
+          '1'
+         else
+          nvl(m1.lapse_reason, m1.apply_status)
+       end apply_status_code,
+       m3.managecom saledeptcode,
+       m1.prem_frequency frequency,
+       m1.prem_period,
+       m0.pos_prem_sum y1009
+
+  from tmp_lyb_yxfyb_zb1_06 m0
+ inner join tmp_lyb_yxfyb_zb1_02 m1 on m1.policy_no = m0.policy_no and m1.prod_seq = m0.prod_seq
+  left join hx_xgogg.laagent m3 on m3.agentcode = m1.agent_no
+ where 1 = 1
+   and m1.prem_frequency != '0';
+
+update hx_dm.index_y1009 a set a.frequency = '0' 
+where a.product_code in ('111801','121704','121705','121809', '211612','221806','221808','511801','111604','121810', '121811','121706', '411701');
+commit; "
+原子指标,Y1010,生存金保费,原子指标,,,,,,,,,,,,,,,,,,,
+原子指标,Y1011,微投规模保费,原子指标,/营销事业群/原子指标,微投规模保费指微投未进核心保单的规模保费；,预收日期，险种，险种状态，四级机构，缴费频率，缴费年期,元,2,实时,营销事业群,各部门,1,待定,营销事业群,李艳斌,待定,不取整,无,暂无,微投,hx_fyb.t_application_main，hx_nogg.uw_apply_info，hx_fyb.t_application_product，hx_xgogg.laagent,"create table hx_dm.index_y1011  as
+
+with tmp_lyb_yxfyb_zb1_wt as (
+
+  select a.print_no apply_bar_code,
+         a.transaction_no,
+         row_number() over(partition by a.print_no order by a.transaction_no) rn
+    from hx_fyb.t_application_main a
+   where 1 = 1
+      and to_date(case
+                   when a.updated_date <> '192254' then
+                    a.updated_date
+                 end /*a.updated_date*/,
+                 'yyyy-mm-dd') between date'2024-9-4' and  date'2024-9-4' + 1
+     and a.sales_channel in ('02', '05', '06')
+     and not exists (select 1
+            from hx_nogg.uw_apply_info b
+           where a.print_no = b.apply_bar_code
+             and b.channel_type in ('02', '05', '06'))
+    /*and a.transaction_no = '11026365760'*/)
+
+          
+select a.policy_no policy_no, --保单号码
+       a.print_no apply_bar_code,
+       b.risk_code product_code, --险种代码
+       case
+         when a.designated_effective_date is not null then
+          to_date(a.designated_effective_date, 'yyyy-mm-dd')
+         else
+          to_date(a.apply_date, 'yyyy-mm-dd')
+       end receive_date, --预收日期
+       a.apply_status_code apply_status_code, -- 保单状态代码 
+       e.managecom saledeptcode, --  管理机构代码  
+       b.payment_schedule frequency, -- 缴费频率
+       case
+         when b.is_payment_whole_life = 'y' then
+          999
+         when b.payment_period_unit is null then
+          0
+         else
+          b.payment_period_value
+       end prem_period, --交费年期  
+       b.initial_premium / 100 y1011 --微投规模保费
+
+  from hx_fyb.t_application_main a
+  left join hx_fyb.t_application_product b
+    on a.transaction_no = b.transaction_no
+  left join hx_nogg.laagent e on a.sales_agent = e.agentcode
+ where 1 = 1
+   and a.sales_channel in ('02', '05', '06') -- 营销渠道
+ ;"
+原子指标,Y1012,微投标准保费,原子指标,,,,,,,,,,,,,,,,,,,
+派生指标,P1001,当日长期缴承保规模保费-预收口径,派生指标,/营销事业群/派生指标,"sum(承保规模保费)；排除撤件保单，排除机构代码为空的保单，排除趸交的保单；统计预收日期在当日的保单；筛选缴费年期大于1或险种是('121704', '121705', '121707')的保单；",险种，险种状态，四级机构，缴费频率，缴费年期,元,2,实时,营销事业群,各部门,1,待定,营销事业群,李艳斌,待定,不取整,Y1001,暂无,hx_dm,hx_dm.index_y1001,"create table hx_dm.index_p1001 as
+
+select a.receive_date stat_date,
+       a.product_code,
+       a.apply_status_code,
+       a.saledeptcode,
+       a.frequency,
+       a.prem_period,
+       sum(y1001) p1001
+  from hx_dm.index_y1001 a
+ where a.receive_date between date '2024-9-4' and date  '2024-9-4'
+   and a.saledeptcode is not null
+   and a.frequency <> 0
+   and a.apply_status_code != '10'
+   and (a.prem_period >= '2' or  a.product_code in ('121704', '121705', '121707'))
+ group by a.receive_date,
+          a.product_code,
+          a.apply_status_code,
+          a.saledeptcode,
+          a.frequency,
+          a.prem_period;"
+派生指标,P1002,当日长期缴未承保规模保费-预收口径,派生指标,/营销事业群/派生指标,"sum(未承保规模保费)；排除撤件保单，排除机构代码为空的保单，排除趸交的保单；统计预收日期在当日的保单；筛选缴费年期大于1或险种是('121704', '121705', '121707')的保单；",险种，险种状态，四级机构，缴费频率，缴费年期,元,2,实时,营销事业群,各部门,1,待定,营销事业群,李艳斌,待定,不取整,Y1005,暂无,hx_dm,hx_dm.index_y1005,"create table hx_dm.index_p1002 as
+
+select a.receive_date stat_date,
+       a.product_code,
+       a.apply_status_code,
+       a.saledeptcode,
+       a.frequency,
+       a.prem_period,
+       sum(y1005) p1002
+  from hx_dm.index_y1005 a
+ where a.receive_date between date '2024-9-4' and date  '2024-9-4'
+   and a.saledeptcode is not null 
+   and a.frequency <> 0  
+   and a.apply_status_code != '10'     
+   and (a.prem_period >= '2' or a.product_code in ('121704', '121705', '121707')) 
+ group by a.receive_date,
+          a.product_code,
+          a.apply_status_code,
+          a.saledeptcode,
+          a.frequency,
+          a.prem_period;"
+派生指标,P1003,当日长期缴首年续期规模保费,派生指标,/营销事业群/派生指标,"sum(首年续期规模保费)；排除撤件保单，排除机构代码为空的保单，排除趸交的保单；统计续期日期在当日的保单；筛选险种是('121704', '121705', '121707')的保单；",险种，险种状态，四级机构，缴费频率，缴费年期,元,2,实时,营销事业群,各部门,1,待定,营销事业群,李艳斌,待定,不取整,Y1007,暂无,hx_dm,hx_dm.index_y1007,"create table hx_dm.index_p1003 as
+
+select a.rn_actural_date stat_date,
+       a.product_code,
+       a.apply_status_code,
+       a.saledeptcode,
+       a.frequency,
+       a.prem_period,
+       sum(y1007) p1003
+  from hx_dm.index_y1007 a
+ where a.rn_actural_date between date '2024-9-4' and date  '2024-9-4'
+   and a.saledeptcode is not null  
+   and  a.apply_status_code not in ('2040', '4010')
+   and a.frequency <> 0 
+   and a.product_code in ('121704', '121705', '121707')
+ group by a.rn_actural_date,
+          a.product_code,
+          a.apply_status_code,
+          a.saledeptcode,
+          a.frequency,
+          a.prem_period;
+          "
+派生指标,P1004,当日长期缴追加规模保费,派生指标,/营销事业群/派生指标,"sum(追加保费)；排除撤件保单，排除机构代码为空的保单，排除趸交的保单；统计追加日期在当日的保单；筛选险种是('121704', '121705', '121707')的保单；",,元,2,实时,营销事业群,各部门,1,待定,营销事业群,李艳斌,待定,不取整,Y1009,暂无,hx_dm,hx_dm.index_y1009,"create table hx_dm.index_p1004 as
+
+select a.add_prem_date stat_date,
+       a.product_code,
+       a.apply_status_code,
+       a.saledeptcode,
+       a.frequency,
+       a.prem_period,
+       sum(y1009) p1004
+  from hx_dm.index_y1009 a
+ where a.add_prem_date between date '2024-9-4' and date  '2024-9-4'
+   and a.saledeptcode is not null  
+   and  a.apply_status_code not in ('2040', '4010')
+   and a.frequency <> 0 
+   and a.product_code in ('121704', '121705', '121707')
+ group by a.add_prem_date,
+          a.product_code,
+          a.apply_status_code,
+          a.saledeptcode,
+          a.frequency,
+          a.prem_period;"
+派生指标,P1005,当日长期缴微投规模保费,派生指标,/营销事业群/派生指标,"sum(微投规模保费)；排除撤件保单，排除机构代码为空的保单，排除趸交的保单；统计预收日期在当日的保单；筛选缴费年期大于1或险种是('121704', '121705', '121707')的保单；",,元,2,实时,营销事业群,各部门,1,待定,营销事业群,李艳斌,待定,不取整,Y1011,暂无,hx_dm,hx_dm.index_y1011,"create table hx_dm.index_p1005 as
+
+select a.receive_date stat_date,
+       a.product_code,
+       a.apply_status_code,
+       a.saledeptcode,
+       a.frequency,
+       a.prem_period,
+       sum(y1011) p1005
+  from hx_dm.index_y1011 a
+ where a.receive_date between date '2024-9-4' and date  '2024-9-4'
+   and a.saledeptcode is not null
+   and a.frequency <> 0
+   and (a.apply_status_code not in ('2040', '4010', '10') or a.apply_status_code is null)
+   and (a.prem_period >= '2' or  a.product_code in ('121704', '121705', '121707'))
+ group by a.receive_date,
+          a.product_code,
+          a.apply_status_code,
+          a.saledeptcode,
+          a.frequency,
+          a.prem_period;"
+派生指标,P1006,当日十年期承保规模保费-预收口径,派生指标,/营销事业群/派生指标,,,,,,,,,,,,,,,,,,
+派生指标,P1007,当日十年期未承保规模保费-预收口径,派生指标,/营销事业群/派生指标,,,,,,,,,,,,,,,,,,
+派生指标,P1008,当日十年期首年续期规模保费,派生指标,/营销事业群/派生指标,,,,,,,,,,,,,,,,,,
+派生指标,P1009,当日十年期追加保费,派生指标,/营销事业群/派生指标,,,,,,,,,,,,,,,,,,
+派生指标,P1010,当日十年期微投规模保费,派生指标,/营销事业群/派生指标,,,,,,,,,,,,,,,,,,
+派生指标,P1011,当日承保标准保费-承保口径,派生指标,/营销事业群/派生指标,sum(承保标准保费) ；排除撤件保单，排除机构代码为空的保单，统计承保日期在当日的保单；,险种，险种状态，四级机构，缴费频率，缴费年期,元,2,实时,营销事业群,各部门,1,未知,待定,李艳斌,待定,不取整,Y1001,暂无,hx_dm,index_y1002,"create table hx_dm.index_p1011 as
+
+select a.issue_date stat_date,
+       a.product_code,
+       a.apply_status_code,
+       a.saledeptcode,
+       a.frequency,
+       a.prem_period,
+       sum(y1002) p1011
+  from hx_dm.index_y1002 a
+ where a.issue_date between date '2024-9-4' and date '2024-9-4'  /*当日范围*/
+   and a.saledeptcode is not null
+   and a.apply_status_code != '10'
+ group by a.issue_date,
+          a.product_code,
+          a.apply_status_code,
+          a.saledeptcode,
+          a.frequency,
+          a.prem_period; "
+派生指标,P1012,当日犹退标准保费,派生指标,/营销事业群/派生指标,sum(犹退标准保费) ；排除撤件保单，排除机构代码为空的保单，统计犹退日期在当日的保单；,险种，险种状态，四级机构，缴费频率，缴费年期,元,2,实时,营销事业群,各部门,1,未知,待定,李艳斌,待定,不取整,Y1004,暂无,hx_dm,index_y1004,"create table hx_dm.index_p1012 as
+
+select a.yt_date stat_date,
+       a.product_code,
+       a.apply_status_code,
+       a.saledeptcode,
+       a.frequency,
+       a.prem_period,
+       sum(y1004) p1012
+  from hx_dm.index_y1004 a
+ where a.yt_date between date '2024-9-4' and date '2024-9-4' /*当日范围*/
+   and a.saledeptcode is not null
+   and a.apply_status_code != '10'
+ group by a.yt_date,
+          a.product_code,
+          a.apply_status_code,
+          a.saledeptcode,
+          a.frequency,
+          a.prem_period; "
+复合指标,F1001,当日预收长期缴规模保费,复合指标,,,,,,,,,,,,,,,,,,,
+复合指标,F1002,当日预收十年期规模保费,复合指标,,,,,,,,,,,,,,,,,,,
+复合指标,F1003,当日预收标准保费,复合指标,,,,,,,,,,,,,,,,,,,
+复合指标,F1004,当日承保标准保费,复合指标,/营销事业群/复合指标,当日承保标准保费 = 当日承保标准保费-承保口径 - 当日犹退标准保费,承保日期,元,2,实时,营销事业群,各部门,1,未知,待定,李艳斌,待定,不取整,P1011，P1012,暂无,hx_dm,index_p1011，index_p1012,"# f1004 = p1011 - p1012 
+
+select stat_date,sum(f1004) f1004 
+from (                 
+select stat_date,product_code,apply_status_code,saledeptcode,frequency,prem_period,p1011 f1004
+from hx_dm.index_p1011 a  /*p1011*/
+union all        
+select stat_date,product_code,apply_status_code,saledeptcode,frequency,prem_period,-p1012 f1004
+from hx_dm.index_p1012 a  /*p1011*/
+) group by stat_date;"
