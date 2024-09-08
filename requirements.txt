@@ -2,3 +2,5 @@ streamlit==1.32.2
 pandas==2.1.4
 streamlit_antd_components
 streamlit_option_menu
+pyecharts
+streamlit_echarts
