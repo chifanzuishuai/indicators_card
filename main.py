@@ -39,8 +39,8 @@ with st.sidebar.container():
     menu = sac.menu([
         sac.MenuItem('home', icon='house-fill',children= [
             sac.MenuItem('相关概念'),
-            sac.MenuItem('指标编码规范')
-            sac.MenuItem('指标关系图')
+            sac.MenuItem('指标编码规范'),
+            sac.MenuItem('指标关系图'),
         ]),
         sac.MenuItem('indicators', icon='app-indicator', children=[
             sac.MenuItem('原子指标'),
