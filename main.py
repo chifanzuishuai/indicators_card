@@ -67,6 +67,9 @@ if menu == '相关概念':
 
 elif menu == '指标编码规范':    
     use_coding_specifications()
+
+elif menu == '指标关系图':    
+    use_Relationship_Graph()
     
 elif menu == '原子指标':    
     use_atomic_indicator()
