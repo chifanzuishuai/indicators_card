@@ -4,4 +4,4 @@ streamlit_antd_components
 streamlit_option_menu
 pyecharts
 streamlit_echarts
-streamlit_option_menu
+openpyxl
