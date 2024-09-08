@@ -5,7 +5,7 @@ from mypages.Atomic_Indicator import use_atomic_indicator   # 原子指标页面
 from mypages.Derived_Indicator import use_derived_indicator   # 派生指标页面
 from mypages.Composite_Indicator import use_composite_indicator   # 复合指标页面
 from mypages.Coding_specifications import use_coding_specifications
-from mapages.Relationship_Graph import * #  指标关系图页面
+from mypages.Relationship_Graph import use_Relationship_Graph #  指标关系图页面
 
 
 
