@@ -5,7 +5,7 @@ from mypages.Atomic_Indicator import use_atomic_indicator   # 原子指标页面
 from mypages.Derived_Indicator import use_derived_indicator   # 派生指标页面
 from mypages.Composite_Indicator import use_composite_indicator   # 复合指标页面
 from mypages.Coding_specifications import use_coding_specifications
-from mypages.Relationship_Graph import use_Relationship_Graph #  指标关系图页面
+
 
 
 
@@ -67,9 +67,6 @@ if menu == '相关概念':
 elif menu == '指标编码规范':    
     use_coding_specifications()
     
-elif menu == '指标关系图':    
-    use_Relationship_Graph()
-
 elif menu == '原子指标':    
     use_atomic_indicator()
 
