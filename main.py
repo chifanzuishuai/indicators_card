@@ -38,6 +38,7 @@ with st.sidebar.container():
         sac.MenuItem('home', icon='house-fill',children= [
             sac.MenuItem('相关概念'),
             sac.MenuItem('指标编码规范')
+            sac.MenuItem('指标关系图')
         ]),
         sac.MenuItem('indicators', icon='app-indicator', children=[
             sac.MenuItem('原子指标'),
@@ -63,6 +64,9 @@ if menu == '相关概念':
 
 elif menu == '指标编码规范':    
     use_coding_specifications()
+    
+elif menu == '指标关系图':    
+    use_relationship_graph()
 
 elif menu == '原子指标':    
     use_atomic_indicator()
