@@ -33,7 +33,13 @@ def use_conception():
     st.markdown('#####  :rainbow[复合指标]')
     st.markdown('复合指标是在事务性指标和存量型指标的基础上复合成的。例如，浏览 UV- 下单买家数转化率，销售额-库存。')
 
+    st.markdown('')
+    st.markdown('#####  :rainbow[事务性指标]')
+    st.markdown('这类指标主要用于衡量业务活动的效果。它们关注的是新发生或改变的事件，例如新发商品数、重发商品数、新增注册会员数、订单支付金额等。这些指标通常需要维护原子指标及修饰词，在此基础上形成派生指标。')
 
+    st.markdown('')
+    st.markdown('#####  :rainbow[存量型指标]')
+    st.markdown('这类指标主要关注实体对象（如商品、会员）的现有状态或历史数据。例如商品总数、注册会员数等。这类指标对应的时间周期一般为“历史截止当前某个时间”。')
 
     # st.markdown('''
     # :red[Streamlit] :orange[can] :green[write] :blue[text] :violet[in]
