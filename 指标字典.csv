@@ -1271,25 +1271,1287 @@ union all
 select stat_date,product_code,apply_status_code,saledeptcode,frequency,prem_period,-p1016 f1006
 from hx_dm.index_p1016 a  /*p1016*/
 ) group by stat_date;"
-原子指标,Y2001,承保标准保费,原子指标,/战略企划部/原子指标,承保标准保费指承保保单的标准保费；承保日期取与延迟承保两者中较大的值；,承保日期，险种，缴费期限，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_nogg.policy_product_prem，hx_nogg.uw_apply_incept，hx_nogg.uw_apply_handin,
-原子指标,Y2002,犹退标准保费,原子指标,/战略企划部/原子指标,犹退标准保费指保单犹豫期退保所退的保费；若犹豫期退保日期小于保单生效日期则选取保单生效日期，否则选取其本身；其中保单生效日期考虑了延迟生效的情况；,犹退日期，险种，缴费期限，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,"hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_nogg.policy_product_prem，hx_nogg.uw_apply_incept，hx_nogg.uw_apply_handin，hx_nogg.pos_info,，hx_nogg.pos_accept_detail",
-原子指标,Y2003,承保规模保费,原子指标,/战略企划部/原子指标,"承保规模保费指承保保单的期缴标准保费,期缴弱体加费,期缴职业加费之和；承保日期取与延迟承保两者中较大的值；",承保日期，险种，缴费期限，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_nogg.policy_product_prem，hx_nogg.uw_apply_incept，hx_nogg.uw_apply_handin,
-原子指标,Y2004,犹退规模保费,原子指标,/战略企划部/原子指标,犹退规模保费指保单犹豫期退保所退的保费；若犹豫期退保日期小于保单生效日期则选取保单生效日期，否则选取其本身；其中保单生效日期考虑了延迟生效的情况；,犹退日期，险种，缴费期限，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,"hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_nogg.policy_product_prem，hx_nogg.uw_apply_incept，hx_nogg.uw_apply_handin，hx_nogg.pos_info,，hx_nogg.pos_accept_detail",
-原子指标,Y2005,追加保费,原子指标,/战略企划部/原子指标,追加保费指根据保单保全追加保费的时间统计追加的费用；,追加日期，险种，缴费期限，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.pos_accept_detail，hx_nogg.pos_info，hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.policy_product_prem,
-原子指标,Y2006,万能账户价值转入,原子指标,/战略企划部/原子指标,万能账户追加转入指根据保单保追加保费转入的时间统计追加的费用；,追加日期，险种，缴费期限，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.rn_paid_info，hx_nogg.fin_amt_type，hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.policy_product_prem,
-原子指标,Y2007,首年续期保费,原子指标,/战略企划部/原子指标,"首年续期规模保费指保单在首个保单年度内，除首次缴费外，缴费类型不在（'02F', '12F', '03F', '13F'），且将以下险种 ('111801','121704','121705','121809', '211612','221806','221808','511801','111604','121810', '121811','121706', '411701')的缴费频次置为趸交；",续期日期，险种，缴费期限，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.rn_paid_info，hx_nogg.fin_amt_type，hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.policy_product_prem,
-原子指标,Y2008,续年续期保费,原子指标,/战略企划部/原子指标,"续年续期规模保费指保单在首个保单年度外的保费，且将以下险种 ('111801','121704','121705','121809', '211612','221806','221808','511801','111604','121810', '121811','121706', '411701')的缴费频次置为趸交；",续期日期，险种，缴费期限，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.rn_paid_info，hx_nogg.fin_amt_type，hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.policy_product_prem,
-原子指标,Y2009,预收保费,原子指标,/战略企划部/原子指标,预收保费指个险核心所有保单的预收保费；,预收日期，险种，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_bi.t_application_main，hx_nogg.uw_bpo_mission_state，hx_nogg.uw_apply_handin,
-派生指标,P2001,当日承保标准保费,派生指标,/战略企划部/派生指标,sum(承保标准保费)；统计承保日期在当日的保单；,险种，四级机构，缴费频率，缴费期限，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2001,暂无,hx_dm,hx_dm.index_y2001,
-派生指标,P2002,当日犹退标准保费,派生指标,/战略企划部/派生指标,sum(犹退标准保费)；统计犹退日期在当日的保单；,险种，四级机构，缴费频率，缴费期限，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2002,暂无,hx_dm,hx_dm.index_y2002,
-派生指标,P2003,当日承保规模保费,派生指标,/战略企划部/派生指标,sum(承保规模保费)；统计承保日期在当日的保单；,险种，四级机构，缴费频率，缴费期限，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2003,暂无,hx_dm,hx_dm.index_y2003,
-派生指标,P2004,当日犹退规模保费,派生指标,/战略企划部/派生指标,sum(犹退规模保费)；统计犹退日期在当日的保单；,险种，四级机构，缴费频率，缴费期限，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2004,暂无,hx_dm,hx_dm.index_y2004,
-派生指标,P2005,当日追加保费,派生指标,/战略企划部/派生指标,sum(追加保费)；统计费用追加日期在当日的保单；,险种，四级机构，缴费频率，缴费期限，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2005,暂无,hx_dm,hx_dm.index_y2005,
-派生指标,P2006,当日万能账户价值转入,派生指标,/战略企划部/派生指标,sum(万能账户价值转入)；统计费用转入日期在当日的保单；,险种，四级机构，缴费频率，缴费期限，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2006,暂无,hx_dm,hx_dm.index_y2006,
-派生指标,P2007,当日首年续期保费,派生指标,/战略企划部/派生指标,sum(首年续期保费)；统计续期日期在当日的保单；,险种，四级机构，缴费频率，缴费期限，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2007,暂无,hx_dm,hx_dm.index_y2007,
-派生指标,P2008,当日续年续期保费,派生指标,/战略企划部/派生指标,sum(续年续期保费)；统计续期日期在当日的保单；,险种，四级机构，缴费频率，缴费期限，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2008,暂无,hx_dm,hx_dm.index_y2008,
-派生指标,P2009,当日预收保费,派生指标,/战略企划部/派生指标,sum(预收保费)；统计预收日期在当日的保单；,险种，四级机构，缴费频率，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2009,暂无,hx_dm,hx_dm.index_y2009,
-复合指标,F2001,当日标准保费,复合指标,/战略企划部/复合指标,当日标准保费 = 当日承保标准保费 - 当日犹退标准保费,日期,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,P2001，P2002,暂无,hx_dm,hx_dm.index_p2001，hx_dm.index_p2002,
-复合指标,F2002,当日首年保费,复合指标,/战略企划部/复合指标,当日首年保费 = 当日承保规模保费 - 当日犹退规模保费 + 当日追加保费 + 当日万能账户价值转入 + 当日续年续期保费,日期，缴费频率,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,P2003，P2004，P2005，P2006，P2007,暂无,hx_dm,hx_dm.index_p2003，hx_dm.index_p2004，hx_dm.index_p2005，hx_dm.index_p2006，hx_dm.index_p2007,
-复合指标,F2003,当日总保费,复合指标,/战略企划部/复合指标,当日总保费 = 当日首年保费 + 当日续年续期保费,日期,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,F2002，P2008,暂无,hx_dm,hx_dm.index_f2002，hx_dm.index_p2008,
-复合指标,F2004,当日首年年化保费,复合指标,/战略企划部/复合指标,当日首年年化保费 = 当日首年保费（趸交和年缴）+ 年化当日承保规模保费（非趸交和年缴）- 年化当日犹退规模保费（非趸交和年缴）,日期,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,F2002，P2003，P2004,暂无,hx_dm,hx_dm.index_f2002，hx_dm.index_p2003，hx_dm.index_p2004,
+原子指标,Y2001,承保标准保费,原子指标,/战略企划部/原子指标,承保标准保费指承保保单的标准保费；承保日期取与延迟承保两者中较大的值；,承保日期，险种，缴费期限，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_nogg.policy_product_prem，hx_nogg.uw_apply_incept，hx_nogg.uw_apply_handin,"# Y2001 承保标准保费
+
+create table hx_dm.index_y2001 as
+
+with tmp_lyb_yxfyb_zb1_02 as 
+(
+  select 
+     b.branch_code,
+     a.channel_type,
+     a.chnl_detail,
+     a.agent_com,
+     a.policy_no,
+     a.issue_date,
+     b.apply_bar_code,
+     b.created_date,
+     d.product_code,
+     e.frequency, 
+     nvl(c.equivalent_prem, 0) equivalent_prem,
+     d.prod_seq,
+     case
+       when e.prem_period_type = '1' then
+        1
+       when e.prem_period_type = '2' then
+        to_number(e.prem_term)
+       when e.prem_period_type = '3' then
+        to_number(e.prem_term) - e.ins_age + 1
+       when e.prem_period_type = '4' then
+        106 - e.ins_age + 1
+       else
+        0
+     end payyears2
+    from hx_nogg.policy a
+   inner join hx_nogg.policy_product d on a.policy_no = d.policy_no
+    left join hx_nogg.uw_apply_info b  on a.apply_no = b.apply_no 
+    left join hx_nogg.uw_apply_product c  on c.apply_no = b.apply_no and c.prod_seq = d.prod_seq and c.is_valid = 'Y'
+    left join hx_nogg.policy_product_prem e on e.policy_no = a.policy_no and e.prod_seq = d.prod_seq
+   where 1=1 /*and a.policy_no = '8808127124225588'*/ and a.channel_type in ('04', '08', '10','03','09','02','05','06','07') and 
+   exists (select 1
+            from hx_dm.TMP_DM_PD_PREM01_DX mm
+           where mm.policy_no = a.policy_no
+             and mm.stepflag= '3') ),
+
+  tmp_lyb_yxfyb_zb1_04 as (  
+
+  select b.policy_no,
+         case
+           when nvl(c.delaydate, d.delaydate) > a.issue_date then
+            nvl(c.delaydate, d.delaydate)
+           else
+            a.issue_date
+         end delaydate,
+         nvl(c.delaydate, d.delaydate) receive_date
+    from hx_nogg.uw_apply_info b
+    left join hx_nogg.policy a on a.policy_no = b.policy_no
+    left join hx_nogg.uw_apply_incept c --微投延迟承保日期
+      on c.document_id = b.apply_bar_code
+    left join hx_nogg.uw_apply_handin d --核心延迟承保日期
+      on b.apply_bar_code = d.apply_bar_code
+  /* where b.policy_no = '8808127124225588'*/)
+
+ select  /*+parallel(16)*/m1.policy_no,
+         m1.apply_bar_code,
+         m1.product_code,
+         m1.prod_seq,
+         trunc(m2.delaydate) issue_date, -- 承保日期
+         trunc(nvl(m2.receive_date, m1.created_date)) receive_date, --预收日期
+         m1.branch_code saledeptcode, 
+         m1.chnl_detail salechnldetail,
+         m1.agent_com,
+         m1.frequency frequency,
+         case
+           when m1.payyears2 <= 1 then
+            '1'
+           when m1.payyears2 >= 2 and m1.payyears2 <= 4 then
+            '2'
+           when m1.payyears2 >= 5 and m1.payyears2 <= 9 then
+            '3'
+           when m1.payyears2 >= 10 and m1.payyears2 <= 14 then
+            '4'
+           when m1.payyears2 >= 15 and m1.payyears2 <= 19 then
+            '5'
+           when m1.payyears2 >= 20 then
+            '6'
+         end payyears2,
+         m1.channel_type,
+         equivalent_prem y2001 --  承保标准保费
+
+    from tmp_lyb_yxfyb_zb1_02 m1
+    left join tmp_lyb_yxfyb_zb1_04 m2 on m2.policy_no = m1.policy_no
+   where  1=1 
+   --and m1.policy_no='8808127124225588'
+   ;
+   
+  update hx_dm.index_y2001 a
+     set a.saledeptcode       = '86441972',
+         a.channel_type = '10',
+         a.salechnldetail = '10102',
+         a.agent_com      = '724419721001'
+  --a.agent_group = '724419721001' 以后需要用
+   where 1 = 1
+     and a.channel_type = '03'
+     and a.product_code in ('411405', '511208', '521505')
+     and a.saledeptcode like '864419%';
+   commit;
+  
+   update hx_dm.index_y2001 a
+     set a.saledeptcode       = '86440172',
+         a.channel_type = '10',
+         a.salechnldetail = '10103',
+         a.agent_com      = '724401721005'
+  --a.agent_group = '724401721005' 以后需要用
+   where 1 = 1
+     and a.channel_type = '03'
+     and a.product_code in ('411405', '521505')
+     and (a.saledeptcode like '8644%' and a.saledeptcode not like '864419%');
+    commit;
+     
+  "
+原子指标,Y2002,犹退标准保费,原子指标,/战略企划部/原子指标,犹退标准保费指保单犹豫期退保所退的保费；若犹豫期退保日期小于保单生效日期则选取保单生效日期，否则选取其本身；其中保单生效日期考虑了延迟生效的情况；,犹退日期，险种，缴费期限，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,"hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_nogg.policy_product_prem，hx_nogg.uw_apply_incept，hx_nogg.uw_apply_handin，hx_nogg.pos_info,，hx_nogg.pos_accept_detail","# Y2002 犹退标准保费
+
+create table hx_dm.index_y2002 as           
+
+with tmp_lyb_yxfyb_zb1_02 as 
+(
+  select 
+     b.branch_code,
+     a.channel_type,
+     a.chnl_detail,
+     a.agent_com,
+     a.policy_no,
+     a.issue_date,
+     b.apply_bar_code,
+     b.created_date,
+     d.product_code,
+     e.frequency, 
+     nvl(c.equivalent_prem, 0) equivalent_prem,
+     d.prod_seq,
+     case
+       when e.prem_period_type = '1' then
+        1
+       when e.prem_period_type = '2' then
+        to_number(e.prem_term)
+       when e.prem_period_type = '3' then
+        to_number(e.prem_term) - e.ins_age + 1
+       when e.prem_period_type = '4' then
+        106 - e.ins_age + 1
+       else
+        0
+     end payyears2
+    from hx_nogg.policy a
+   inner join hx_nogg.policy_product d on a.policy_no = d.policy_no
+    left join hx_nogg.uw_apply_info b  on a.apply_no = b.apply_no 
+    left join hx_nogg.uw_apply_product c  on c.apply_no = b.apply_no and c.prod_seq = d.prod_seq and c.is_valid = 'Y'
+    left join hx_nogg.policy_product_prem e on e.policy_no = a.policy_no and e.prod_seq = d.prod_seq
+   where 1=1 /*and a.policy_no = '8808127124225588'*/ and a.channel_type in ('04', '08', '10','03','09','02','05','06','07')
+   and exists (select 1
+            from hx_dm.tmp_dm_pd_prem01_dx mm
+           where mm.policy_no = a.policy_no
+             and mm.stepflag= '4') ),
+
+  tmp_lyb_yxfyb_zb1_04 as (  
+
+  select b.policy_no,
+         case
+           when nvl(c.delaydate, d.delaydate) > a.issue_date then
+            nvl(c.delaydate, d.delaydate)
+           else
+            a.issue_date
+         end delaydate
+    from hx_nogg.uw_apply_info b
+    left join hx_nogg.policy a on a.policy_no = b.policy_no
+    left join hx_nogg.uw_apply_incept c --微投延迟承保日期
+      on c.document_id = b.apply_bar_code
+    left join hx_nogg.uw_apply_handin d --核心延迟承保日期
+      on b.apply_bar_code = d.apply_bar_code
+  /* where b.policy_no = '8808127124225588'*/),
+ 
+  tmp_polocy_delaydate_dx as 
+
+( select trunc(po.confirmed_date) withdraw_conf_date,
+           pp.object_value prod_seq,
+           po.policy_no,
+           p.branch_code
+      from hx_nogg.pos_info po, hx_nogg.pos_accept_detail pp, hx_nogg.policy p
+     where po.policy_no = p.policy_no
+       and po.pos_no = pp.pos_no
+       and po.service_items = '1'
+       and po.accept_status_code = 'E01'
+       and pp.pos_object = '2'
+       and pp.item_no = '011'
+       and p.channel_type in ('04', '08', '10','03','09','02','05','06','07')
+       and po.confirmed_date between to_date('2024-09-22 00:00:00', 'yyyy-mm-dd hh24:mi:ss')-7 and  to_date('2024-09-22 23:59:59', 'yyyy-mm-dd hh24:mi:ss')
+)
+
+ select  /*+parallel(16)*/m1.policy_no,
+         m1.apply_bar_code,
+         m1.product_code,
+         m1.prod_seq,
+         case
+           when m0.withdraw_conf_date < m2.delaydate then
+            m2.delaydate
+           else
+            m0.withdraw_conf_date
+         end yt_date,
+         m1.branch_code saledeptcode, 
+         m1.chnl_detail salechnldetail,
+         m1.agent_com,
+         m1.frequency frequency,
+         case
+           when m1.payyears2 <= 1 then
+            '1'
+           when m1.payyears2 >= 2 and m1.payyears2 <= 4 then
+            '2'
+           when m1.payyears2 >= 5 and m1.payyears2 <= 9 then
+            '3'
+           when m1.payyears2 >= 10 and m1.payyears2 <= 14 then
+            '4'
+           when m1.payyears2 >= 15 and m1.payyears2 <= 19 then
+            '5'
+           when m1.payyears2 >= 20 then
+            '6'
+         end payyears2,
+         m1.channel_type,
+         equivalent_prem y2002 --  承保标准保费
+
+    from tmp_polocy_delaydate_dx m0 
+    inner join tmp_lyb_yxfyb_zb1_02 m1 on m0.policy_no = m1.policy_no and m0.prod_seq = m1.prod_seq
+    inner join tmp_lyb_yxfyb_zb1_04 m2 on m2.policy_no = m1.policy_no
+   where  1=1 
+   --and m1.policy_no='8808127124225588'
+   ;
+          
+   update hx_dm.index_y2002 a
+     set a.saledeptcode       = '86441972',
+         a.channel_type = '10',
+         a.salechnldetail = '10102',
+         a.agent_com      = '724419721001'
+  --a.agent_group = '724419721001' 以后需要用
+   where 1 = 1
+     and a.channel_type = '03'
+     and a.product_code in ('411405', '511208', '521505')
+     and a.saledeptcode like '864419%';
+   commit;
+  
+   update hx_dm.index_y2002 a
+     set a.saledeptcode       = '86440172',
+         a.channel_type = '10',
+         a.salechnldetail = '10103',
+         a.agent_com      = '724401721005'
+  --a.agent_group = '724401721005' 以后需要用
+   where 1 = 1
+     and a.channel_type = '03'
+     and a.product_code in ('411405', '521505')
+     and (a.saledeptcode like '8644%' and a.saledeptcode not like '864419%');
+   commit;
+   "
+原子指标,Y2003,承保规模保费,原子指标,/战略企划部/原子指标,"承保规模保费指承保保单的期缴标准保费,期缴弱体加费,期缴职业加费之和；承保日期取与延迟承保两者中较大的值；",承保日期，险种，缴费期限，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_nogg.policy_product_prem，hx_nogg.uw_apply_incept，hx_nogg.uw_apply_handin,"# Y2003 承保规模保费
+
+create table hx_dm.index_y2003 as
+
+with tmp_lyb_yxfyb_zb1_02 as 
+(
+  select 
+     b.branch_code,
+     a.channel_type,
+     a.chnl_detail,
+     a.agent_com,
+     a.policy_no,
+     a.issue_date,
+     b.apply_bar_code,
+     b.created_date,
+     d.product_code,
+     e.frequency, 
+     c.period_standard_prem + c.period_weak_add_prem + c.period_occu_add_prem uw_prem,
+     d.prod_seq,
+     case
+       when e.prem_period_type = '1' then
+        1
+       when e.prem_period_type = '2' then
+        to_number(e.prem_term)
+       when e.prem_period_type = '3' then
+        to_number(e.prem_term) - e.ins_age + 1
+       when e.prem_period_type = '4' then
+        106 - e.ins_age + 1
+       else
+        0
+     end payyears2
+    from hx_nogg.policy a
+   inner join hx_nogg.policy_product d on a.policy_no = d.policy_no
+    left join hx_nogg.uw_apply_info b  on a.apply_no = b.apply_no 
+    left join hx_nogg.uw_apply_product c  on c.apply_no = b.apply_no and c.prod_seq = d.prod_seq and c.is_valid = 'Y'
+    left join hx_nogg.policy_product_prem e on e.policy_no = a.policy_no and e.prod_seq = d.prod_seq
+   where 1=1 /*and a.policy_no = '8808127124225588'*/ and a.channel_type in ('04', '08', '10','03','09','02','05','06','07') and 
+   exists (select 1
+            from hx_dm.tmp_dm_pd_prem01_dx mm
+           where mm.policy_no = a.policy_no
+             and mm.stepflag= '3') ),
+
+  tmp_lyb_yxfyb_zb1_04 as (  
+
+  select b.policy_no,
+         case
+           when nvl(c.delaydate, d.delaydate) > a.issue_date then
+            nvl(c.delaydate, d.delaydate)
+           else
+            a.issue_date
+         end delaydate,
+         nvl(c.delaydate, d.delaydate) receive_date
+    from hx_nogg.uw_apply_info b
+    left join hx_nogg.policy a on a.policy_no = b.policy_no
+    left join hx_nogg.uw_apply_incept c --微投延迟承保日期
+      on c.document_id = b.apply_bar_code
+    left join hx_nogg.uw_apply_handin d --核心延迟承保日期
+      on b.apply_bar_code = d.apply_bar_code
+  /* where b.policy_no = '8808127124225588'*/)
+
+ select  /*+parallel(16)*/m1.policy_no,
+         m1.apply_bar_code,
+         m1.product_code,
+         m1.prod_seq,
+         trunc(m2.delaydate) issue_date, -- 承保日期
+         trunc(nvl(m2.receive_date, m1.created_date)) receive_date, --预收日期
+         m1.branch_code saledeptcode, 
+         m1.chnl_detail salechnldetail,
+         m1.agent_com,
+         m1.frequency frequency,
+         case
+           when m1.payyears2 <= 1 then
+            '1'
+           when m1.payyears2 >= 2 and m1.payyears2 <= 4 then
+            '2'
+           when m1.payyears2 >= 5 and m1.payyears2 <= 9 then
+            '3'
+           when m1.payyears2 >= 10 and m1.payyears2 <= 14 then
+            '4'
+           when m1.payyears2 >= 15 and m1.payyears2 <= 19 then
+            '5'
+           when m1.payyears2 >= 20 then
+            '6'
+         end payyears2,
+         m1.channel_type,
+         uw_prem y2003 --  承保规模保费
+
+    from tmp_lyb_yxfyb_zb1_02 m1
+    left join tmp_lyb_yxfyb_zb1_04 m2 on m2.policy_no = m1.policy_no
+   where  1=1 
+   --and m1.policy_no='8808127124225588'
+   ;
+     
+     
+  update hx_dm.index_y2003 a
+     set a.saledeptcode       = '86441972',
+         a.channel_type = '10',
+         a.salechnldetail = '10102',
+         a.agent_com      = '724419721001'
+  --a.agent_group = '724419721001' 以后需要用
+   where 1 = 1
+     and a.channel_type = '03'
+     and a.product_code in ('411405', '511208', '521505')
+     and a.saledeptcode like '864419%';
+  commit;
+  
+   update hx_dm.index_y2003 a
+     set a.saledeptcode       = '86440172',
+         a.channel_type = '10',
+         a.salechnldetail = '10103',
+         a.agent_com      = '724401721005'
+  --a.agent_group = '724401721005' 以后需要用
+   where 1 = 1
+     and a.channel_type = '03'
+     and a.product_code in ('411405', '521505')
+     and (a.saledeptcode like '8644%' and a.saledeptcode not like '864419%');
+   commit;
+  "
+原子指标,Y2004,犹退规模保费,原子指标,/战略企划部/原子指标,犹退规模保费指保单犹豫期退保所退的保费；若犹豫期退保日期小于保单生效日期则选取保单生效日期，否则选取其本身；其中保单生效日期考虑了延迟生效的情况；,犹退日期，险种，缴费期限，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,"hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_nogg.policy_product_prem，hx_nogg.uw_apply_incept，hx_nogg.uw_apply_handin，hx_nogg.pos_info,，hx_nogg.pos_accept_detail","# Y2004 犹退规模保费
+
+create table hx_dm.index_y2004 as           
+
+with tmp_lyb_yxfyb_zb1_02 as 
+(
+  select 
+     b.branch_code,
+     a.channel_type,
+     a.chnl_detail,
+     a.agent_com,
+     a.policy_no,
+     a.issue_date,
+     b.apply_bar_code,
+     b.created_date,
+     d.product_code,
+     e.frequency, 
+     c.period_standard_prem + c.period_weak_add_prem + c.period_occu_add_prem uw_prem,
+     d.prod_seq,
+     case
+       when e.prem_period_type = '1' then
+        1
+       when e.prem_period_type = '2' then
+        to_number(e.prem_term)
+       when e.prem_period_type = '3' then
+        to_number(e.prem_term) - e.ins_age + 1
+       when e.prem_period_type = '4' then
+        106 - e.ins_age + 1
+       else
+        0
+     end payyears2
+    from hx_nogg.policy a
+   inner join hx_nogg.policy_product d on a.policy_no = d.policy_no
+    left join hx_nogg.uw_apply_info b  on a.apply_no = b.apply_no 
+    left join hx_nogg.uw_apply_product c  on c.apply_no = b.apply_no and c.prod_seq = d.prod_seq and c.is_valid = 'Y'
+    left join hx_nogg.policy_product_prem e on e.policy_no = a.policy_no and e.prod_seq = d.prod_seq
+   where 1=1 /*and a.policy_no = '8808127124225588'*/ and a.channel_type in ('04', '08', '10','03','09','02','05','06','07')
+   and exists (select 1
+            from hx_dm.tmp_dm_pd_prem01_dx mm
+           where mm.policy_no = a.policy_no
+             and mm.stepflag= '4') ),
+
+  tmp_lyb_yxfyb_zb1_04 as (  
+
+  select b.policy_no,
+         case
+           when nvl(c.delaydate, d.delaydate) > a.issue_date then
+            nvl(c.delaydate, d.delaydate)
+           else
+            a.issue_date
+         end delaydate
+    from hx_nogg.uw_apply_info b
+    left join hx_nogg.policy a on a.policy_no = b.policy_no
+    left join hx_nogg.uw_apply_incept c --微投延迟承保日期
+      on c.document_id = b.apply_bar_code
+    left join hx_nogg.uw_apply_handin d --核心延迟承保日期
+      on b.apply_bar_code = d.apply_bar_code
+  /* where b.policy_no = '8808127124225588'*/),
+ 
+  tmp_polocy_delaydate_dx as 
+
+( select trunc(po.confirmed_date) withdraw_conf_date,
+           pp.object_value prod_seq,
+           po.policy_no,
+           p.branch_code
+      from hx_nogg.pos_info po, hx_nogg.pos_accept_detail pp, hx_nogg.policy p
+     where po.policy_no = p.policy_no
+       and po.pos_no = pp.pos_no
+       and po.service_items = '1'
+       and po.accept_status_code = 'E01'
+       and pp.pos_object = '2'
+       and pp.item_no = '011'
+       and p.channel_type in ('04', '08', '10','03','09','02','05','06','07')
+       and po.confirmed_date between to_date('2024-09-22 00:00:00', 'yyyy-mm-dd hh24:mi:ss')-7 and  to_date('2024-09-22 23:59:59', 'yyyy-mm-dd hh24:mi:ss')
+)
+
+ select  /*+parallel(16)*/m1.policy_no,
+         m1.apply_bar_code,
+         m1.product_code,
+         m1.prod_seq,
+         case
+           when m0.withdraw_conf_date < m2.delaydate then
+            m2.delaydate
+           else
+            m0.withdraw_conf_date
+         end yt_date,
+         m1.branch_code saledeptcode, 
+         m1.chnl_detail salechnldetail,
+         m1.agent_com,
+         m1.frequency frequency,
+         case
+           when m1.payyears2 <= 1 then
+            '1'
+           when m1.payyears2 >= 2 and m1.payyears2 <= 4 then
+            '2'
+           when m1.payyears2 >= 5 and m1.payyears2 <= 9 then
+            '3'
+           when m1.payyears2 >= 10 and m1.payyears2 <= 14 then
+            '4'
+           when m1.payyears2 >= 15 and m1.payyears2 <= 19 then
+            '5'
+           when m1.payyears2 >= 20 then
+            '6'
+         end payyears2,
+         m1.channel_type,
+         uw_prem y2004 --  犹退规模保费
+
+    from tmp_polocy_delaydate_dx m0 
+    inner join tmp_lyb_yxfyb_zb1_02 m1 on m0.policy_no = m1.policy_no and m0.prod_seq = m1.prod_seq
+    inner join tmp_lyb_yxfyb_zb1_04 m2 on m2.policy_no = m1.policy_no
+   where  1=1 
+   --and m1.policy_no='8808127124225588'
+   ;
+          
+   update hx_dm.index_y2004 a
+     set a.saledeptcode       = '86441972',
+         a.channel_type = '10',
+         a.salechnldetail = '10102',
+         a.agent_com      = '724419721001'
+  --a.agent_group = '724419721001' 以后需要用
+   where 1 = 1
+     and a.channel_type = '03'
+     and a.product_code in ('411405', '511208', '521505')
+     and a.saledeptcode like '864419%';
+  commit;
+  
+   update hx_dm.index_y2004 a
+     set a.saledeptcode       = '86440172',
+         a.channel_type = '10',
+         a.salechnldetail = '10103',
+         a.agent_com      = '724401721005'
+  --a.agent_group = '724401721005' 以后需要用
+   where 1 = 1
+     and a.channel_type = '03'
+     and a.product_code in ('411405', '521505')
+     and (a.saledeptcode like '8644%' and a.saledeptcode not like '864419%');
+   commit; 
+     
+    "
+原子指标,Y2005,追加保费,原子指标,/战略企划部/原子指标,追加保费指根据保单保全追加保费的时间统计追加的费用；,追加日期，险种，缴费期限，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.pos_accept_detail，hx_nogg.pos_info，hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.policy_product_prem,"# Y2005 追加保费
+
+create table hx_dm.index_y2005  as
+
+with tmp_lyb_yxfyb_zb1_06 as  (
+  select 
+   a.pos_no,
+   a.object_value policy_no,
+   a.confirmed_date,
+   a.branch_code,
+   sum(case when item_no = '099' then pos_prem_sum else 0 end) as prod_seq,
+   sum(case when item_no = '100' then pos_prem_sum else 0 end) as prod_code,
+   sum(case when item_no = '045' then pos_prem_sum else 0 end) as pos_prem_sum
+
+    from (select pp.pos_no,
+                 pp.object_value,
+                 pp.item_no,
+                 to_number(pp.new_value) pos_prem_sum,
+                 trunc(pi.confirmed_date) confirmed_date,
+                 p.branch_code
+            from hx_nogg.pos_accept_detail pp,
+                 hx_nogg.pos_info          pi,
+                 hx_nogg.policy            p
+           where 1 = 1
+             and pi.pos_no = pp.pos_no
+             and pi.policy_no = p.policy_no
+             and pi.service_items = '35'
+             and pi.accept_status_code = 'E01'
+             and pp.pos_object = '1'
+             and pp.item_no in ('099', '100', '045')
+             and p.channel_type in ('04', '08', '10','03','09','02','05','06','07')
+             /*and p.policy_no = '8808111058898688'*/
+             and trunc(pi.confirmed_date) between date '2024-09-22' and date '2024-09-22'
+             and exists (select 1 from hx_dm.tmp_dm_pd_prem01_dx k where k.stepflag = '6' and k.policy_no = p.policy_no) ) a
+   group by a.pos_no, a.object_value,a.confirmed_date,a.branch_code),
+
+tmp_lyb_yxfyb_zb1_02 as 
+( select 
+     b.branch_code,
+     a.channel_type,
+     a.chnl_detail,
+     a.agent_com,
+     a.policy_no,
+     b.apply_bar_code,
+     b.created_date,
+     d.product_code,
+     e.frequency, 
+     d.prod_seq,
+     case
+       when e.prem_period_type = '1' then
+        1
+       when e.prem_period_type = '2' then
+        to_number(e.prem_term)
+       when e.prem_period_type = '3' then
+        to_number(e.prem_term) - e.ins_age + 1
+       when e.prem_period_type = '4' then
+        106 - e.ins_age + 1
+       else
+        0
+     end payyears2
+    from hx_nogg.policy a
+   inner join hx_nogg.policy_product d on a.policy_no = d.policy_no
+    left join hx_nogg.uw_apply_info b  on a.apply_no = b.apply_no 
+    left join hx_nogg.policy_product_prem e on e.policy_no = a.policy_no and e.prod_seq = d.prod_seq
+   where 1=1 /*and a.policy_no = '8808127124225588'*/ and a.channel_type in ('04', '08', '10','03','09','02','05','06','07') and 
+   exists (select 1
+            from hx_dm.TMP_DM_PD_PREM01_DX mm
+           where mm.policy_no = a.policy_no
+             and mm.stepflag= '6') )
+
+ select  /*+parallel(16)*/m1.policy_no,
+         m1.apply_bar_code,
+         m1.product_code,
+         m1.prod_seq,
+         trunc(m0.confirmed_date) add_prem_date, -- 追加保费日期
+         m1.branch_code saledeptcode, 
+         m1.chnl_detail salechnldetail,
+         m1.agent_com,
+         m1.frequency frequency,
+         case
+           when m1.payyears2 <= 1 then
+            '1'
+           when m1.payyears2 >= 2 and m1.payyears2 <= 4 then
+            '2'
+           when m1.payyears2 >= 5 and m1.payyears2 <= 9 then
+            '3'
+           when m1.payyears2 >= 10 and m1.payyears2 <= 14 then
+            '4'
+           when m1.payyears2 >= 15 and m1.payyears2 <= 19 then
+            '5'
+           when m1.payyears2 >= 20 then
+            '6'
+         end payyears2,
+         m1.channel_type,
+         pos_prem_sum y2005 --  追加规模保费
+
+  from tmp_lyb_yxfyb_zb1_06 m0
+ inner join tmp_lyb_yxfyb_zb1_02 m1 on m1.policy_no = m0.policy_no and m1.prod_seq = m0.prod_seq
+ where 1 = 1;
+
+   update hx_dm.index_y2005 a
+     set a.saledeptcode       = '86441972',
+         a.channel_type = '10',
+         a.salechnldetail = '10102',
+         a.agent_com      = '724419721001'
+  --a.agent_group = '724419721001' 以后需要用
+   where 1 = 1
+     and a.channel_type = '03'
+     and a.product_code in ('411405', '511208', '521505')
+     and a.saledeptcode like '864419%';
+   commit;
+  
+   update hx_dm.index_y2005 a
+     set a.saledeptcode       = '86440172',
+         a.channel_type = '10',
+         a.salechnldetail = '10103',
+         a.agent_com      = '724401721005'
+  --a.agent_group = '724401721005' 以后需要用
+   where 1 = 1
+     and a.channel_type = '03'
+     and a.product_code in ('411405', '521505')
+     and (a.saledeptcode like '8644%' and a.saledeptcode not like '864419%');
+   commit;"
+原子指标,Y2006,万能账户价值转入,原子指标,/战略企划部/原子指标,万能账户追加转入指根据保单保追加保费转入的时间统计追加的费用；,追加日期，险种，缴费期限，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.rn_paid_info，hx_nogg.fin_amt_type，hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.policy_product_prem,"# Y2006 万能账户价值转入/生存金
+
+create table hx_dm.index_y2006  as
+
+with tmp_lyb_yxfyb_zb1_06 as  (  
+  select a.policy_no,
+         a.prod_seq,
+         a.pay_times,
+         a.modal_total_prem * to_number(b.payment_flag) modal_total_prem,
+         a.prem_actural_date ,
+         a.amt_type,
+         a.prem_due_date,
+         a.frequency,
+         a.product_code,
+         a.actural_pay_times,
+         a.dept_no,
+         a.branch_code,
+         a.agent_no,
+         a.coverage_year,
+         a.apply_bar_code,
+         a.prem_due_pk
+      
+    from hx_nogg.rn_paid_info a
+    left join hx_nogg.fin_amt_type b on a.amt_type = b.amt_type
+   where a.prem_actural_date between to_date('2024-09-22 00:00:00', 'yyyy-mm-dd hh24:mi:ss') and to_date('2024-09-22 23:59:59', 'yyyy-mm-dd hh24:mi:ss')
+     and a.amt_type = '245'
+     and a.channel_type in ('04', '08', '10','03','09','02','05','06','07')
+     and  exists (select 1
+            from hx_dm.TMP_DM_PD_PREM01_DX mm
+           where mm.policy_no = a.policy_no
+             and mm.stepflag= '7') ),
+
+tmp_lyb_yxfyb_zb1_02 as 
+( 
+ select 
+     b.branch_code,
+     a.channel_type,
+     a.chnl_detail,
+     a.agent_com,
+     a.policy_no,
+     b.apply_bar_code,
+     b.created_date,
+     d.product_code,
+     e.frequency, 
+     d.prod_seq,
+     case
+       when e.prem_period_type = '1' then
+        1
+       when e.prem_period_type = '2' then
+        to_number(e.prem_term)
+       when e.prem_period_type = '3' then
+        to_number(e.prem_term) - e.ins_age + 1
+       when e.prem_period_type = '4' then
+        106 - e.ins_age + 1
+       else
+        0
+     end payyears2
+    from hx_nogg.policy a
+   inner join hx_nogg.policy_product d on a.policy_no = d.policy_no
+    left join hx_nogg.uw_apply_info b  on a.apply_no = b.apply_no 
+    left join hx_nogg.policy_product_prem e on e.policy_no = a.policy_no and e.prod_seq = d.prod_seq
+   where 1=1 /*and a.policy_no = '8808127124225588'*/ and a.channel_type in ('04', '08', '10','03','09','02','05','06','07') and 
+   exists (select 1
+            from hx_dm.TMP_DM_PD_PREM01_DX mm
+           where mm.policy_no = a.policy_no
+             and mm.stepflag= '7') )
+
+ select  /*+parallel(16)*/m1.policy_no,
+         m1.apply_bar_code,
+         m1.product_code,
+         m1.prod_seq,
+         trunc(m0.prem_actural_date) add_prem_date, -- 转入日期
+         m1.branch_code saledeptcode, 
+         m1.chnl_detail salechnldetail,
+         m1.agent_com,
+         m1.frequency frequency,
+         case
+           when m1.payyears2 <= 1 then
+            '1'
+           when m1.payyears2 >= 2 and m1.payyears2 <= 4 then
+            '2'
+           when m1.payyears2 >= 5 and m1.payyears2 <= 9 then
+            '3'
+           when m1.payyears2 >= 10 and m1.payyears2 <= 14 then
+            '4'
+           when m1.payyears2 >= 15 and m1.payyears2 <= 19 then
+            '5'
+           when m1.payyears2 >= 20 then
+            '6'
+         end payyears2,
+         m1.channel_type,
+         modal_total_prem y2006  --  万能账户价值转入
+
+  from tmp_lyb_yxfyb_zb1_06 m0
+ inner join tmp_lyb_yxfyb_zb1_02 m1 on m1.policy_no = m0.policy_no and m1.prod_seq = m0.prod_seq
+ where 1 = 1;
+
+
+  update hx_dm.index_y2006 a
+     set a.saledeptcode       = '86441972',
+         a.channel_type = '10',
+         a.salechnldetail = '10102',
+         a.agent_com      = '724419721001'
+  --a.agent_group = '724419721001' 以后需要用
+   where 1 = 1
+     and a.channel_type = '03'
+     and a.product_code in ('411405', '511208', '521505')
+     and a.saledeptcode like '864419%';
+  commit;
+  
+   update hx_dm.index_y2006 a
+     set a.saledeptcode       = '86440172',
+         a.channel_type = '10',
+         a.salechnldetail = '10103',
+         a.agent_com      = '724401721005'
+  --a.agent_group = '724401721005' 以后需要用
+   where 1 = 1
+     and a.channel_type = '03'
+     and a.product_code in ('411405', '521505')
+     and (a.saledeptcode like '8644%' and a.saledeptcode not like '864419%');
+   commit;
+     "
+原子指标,Y2007,首年续期保费,原子指标,/战略企划部/原子指标,"首年续期规模保费指保单在首个保单年度内，除首次缴费外，缴费类型不在（'02F', '12F', '03F', '13F'），且将以下险种 ('111801','121704','121705','121809', '211612','221806','221808','511801','111604','121810', '121811','121706', '411701')的缴费频次置为趸交；",续期日期，险种，缴费期限，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.rn_paid_info，hx_nogg.fin_amt_type，hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.policy_product_prem,"# Y2007 首年续期保费
+
+create table hx_dm.index_y2007  as
+
+with tmp_lyb_yxfyb_zb1_02 as (
+
+select 
+     --b.branch_code,
+     a.channel_type,
+     a.chnl_detail,
+     a.agent_com,
+     a.policy_no,
+     b.apply_bar_code,
+     b.created_date,
+     d.product_code,
+     e.frequency, 
+     d.prod_seq,
+     case
+       when e.prem_period_type = '1' then
+        1
+       when e.prem_period_type = '2' then
+        to_number(e.prem_term)
+       when e.prem_period_type = '3' then
+        to_number(e.prem_term) - e.ins_age + 1
+       when e.prem_period_type = '4' then
+        106 - e.ins_age + 1
+       else
+        0
+     end payyears2
+    from hx_nogg.policy a
+   inner join hx_nogg.policy_product d on a.policy_no = d.policy_no
+    left join hx_nogg.uw_apply_info b  on a.apply_no = b.apply_no 
+    left join hx_nogg.policy_product_prem e on e.policy_no = a.policy_no and e.prod_seq = d.prod_seq
+   where 1=1 /*and a.policy_no = '8808127124225588'*/ and a.channel_type in ('04', '08', '10','03','09','02','05','06','07') and 
+   exists (select 1
+            from hx_dm.dm_pd_rnprem_dx mm  
+           where mm.policy_no = a.policy_no)
+       )
+
+ select  /*+parallel(16)*/m1.policy_no,
+         m1.apply_bar_code,
+         m1.product_code,
+         m1.prod_seq,
+         trunc(rn.prem_actural_date) add_prem_date, --  续期实收日期
+         rn.branch_code saledeptcode, 
+         m1.chnl_detail salechnldetail,
+         m1.agent_com,
+         rn.frequency frequency,
+         case
+           when m1.payyears2 <= 1 then
+            '1'
+           when m1.payyears2 >= 2 and m1.payyears2 <= 4 then
+            '2'
+           when m1.payyears2 >= 5 and m1.payyears2 <= 9 then
+            '3'
+           when m1.payyears2 >= 10 and m1.payyears2 <= 14 then
+            '4'
+           when m1.payyears2 >= 15 and m1.payyears2 <= 19 then
+            '5'
+           when m1.payyears2 >= 20 then
+            '6'
+         end payyears2,
+         m1.channel_type,
+         case
+           when rn.coverage_year <= 1 and rn.actural_pay_times >= 2 and
+                rn.amt_type not in ('02F', '12F', '03F', '13F') then
+            rn.modal_total_prem * to_number(m2.payment_flag)
+           else
+            0
+         end y2007  --  续期实收保费
+    
+  from hx_nogg.rn_paid_info rn
+ inner join tmp_lyb_yxfyb_zb1_02 m1 on rn.policy_no = m1.policy_no and rn.prod_seq = m1.prod_seq
+  left join hx_nogg.fin_amt_type m2 on rn.amt_type = m2.amt_type
+
+ where 1 = 1
+   and rn.amt_type in ('02F','03F','12F','13F','105','320','191','801','220','091','901','005')
+   and trunc(rn.prem_actural_date) between date '2024-09-22' and date '2024-09-22';
+   
+   
+   update hx_dm.index_y2007 a
+     set a.saledeptcode       = '86441972',
+         a.channel_type = '10',
+         a.salechnldetail = '10102',
+         a.agent_com      = '724419721001'
+  --a.agent_group = '724419721001' 以后需要用
+   where 1 = 1
+     and a.channel_type = '03'
+     and a.product_code in ('411405', '511208', '521505')
+     and a.saledeptcode like '864419%';
+   commit;
+  
+   update hx_dm.index_y2007 a
+     set a.saledeptcode       = '86440172',
+         a.channel_type = '10',
+         a.salechnldetail = '10103',
+         a.agent_com      = '724401721005'
+  --a.agent_group = '724401721005' 以后需要用
+   where 1 = 1
+     and a.channel_type = '03'
+     and a.product_code in ('411405', '521505')
+     and (a.saledeptcode like '8644%' and a.saledeptcode not like '864419%');  
+   commit;
+
+  update hx_dm.index_y2007 a
+     set a.frequency = '0'
+   where a.y2007 != 0 and a.product_code in  ('111801','121704','121705','121809', '211612','221806','221808','511801','111604','121810', '121811','121706', '411701');
+  commit;
+"
+原子指标,Y2008,续年续期保费,原子指标,/战略企划部/原子指标,"续年续期规模保费指保单在首个保单年度外的保费，且将以下险种 ('111801','121704','121705','121809', '211612','221806','221808','511801','111604','121810', '121811','121706', '411701')的缴费频次置为趸交；",续期日期，险种，缴费期限，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.rn_paid_info，hx_nogg.fin_amt_type，hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.policy_product_prem,"# Y2008 续年续期保费
+
+create table hx_dm.index_y2008 as
+with tmp_lyb_yxfyb_zb1_02 as (
+
+select 
+     --b.branch_code,
+     a.channel_type,
+     a.chnl_detail,
+     a.agent_com,
+     a.policy_no,
+     b.apply_bar_code,
+     b.created_date,
+     d.product_code,
+     e.frequency, 
+     d.prod_seq,
+     case
+       when e.prem_period_type = '1' then
+        1
+       when e.prem_period_type = '2' then
+        to_number(e.prem_term)
+       when e.prem_period_type = '3' then
+        to_number(e.prem_term) - e.ins_age + 1
+       when e.prem_period_type = '4' then
+        106 - e.ins_age + 1
+       else
+        0
+     end payyears2
+    from hx_nogg.policy a
+   inner join hx_nogg.policy_product d on a.policy_no = d.policy_no
+    left join hx_nogg.uw_apply_info b  on a.apply_no = b.apply_no 
+    left join hx_nogg.policy_product_prem e on e.policy_no = a.policy_no and e.prod_seq = d.prod_seq
+   where 1=1 /*and a.policy_no = '8808127124225588'*/ and a.channel_type in ('04', '08', '10','03','09','02','05','06','07') and 
+   exists (select 1
+            from hx_dm.dm_pd_rnprem_dx mm  
+           where mm.policy_no = a.policy_no)
+       )
+
+ select  /*+parallel(16)*/m1.policy_no,
+         m1.apply_bar_code,
+         m1.product_code,
+         m1.prod_seq,
+         trunc(rn.prem_actural_date) add_prem_date, --  续期实收日期
+         rn.branch_code saledeptcode, 
+         m1.chnl_detail salechnldetail,
+         m1.agent_com,
+         rn.frequency frequency,
+         case
+           when m1.payyears2 <= 1 then
+            '1'
+           when m1.payyears2 >= 2 and m1.payyears2 <= 4 then
+            '2'
+           when m1.payyears2 >= 5 and m1.payyears2 <= 9 then
+            '3'
+           when m1.payyears2 >= 10 and m1.payyears2 <= 14 then
+            '4'
+           when m1.payyears2 >= 15 and m1.payyears2 <= 19 then
+            '5'
+           when m1.payyears2 >= 20 then
+            '6'
+         end payyears2,
+         m1.channel_type,
+         case
+           when rn.coverage_year >1  then
+            rn.modal_total_prem * to_number(m2.payment_flag)
+           else
+            0
+         end y2008  --  续期实收保费
+    
+  from hx_nogg.rn_paid_info rn
+ inner join tmp_lyb_yxfyb_zb1_02 m1 on rn.policy_no = m1.policy_no and rn.prod_seq = m1.prod_seq
+  left join hx_nogg.fin_amt_type m2 on rn.amt_type = m2.amt_type
+
+ where 1 = 1
+   and rn.amt_type in ('02F','03F','12F','13F','105','320','191','801','220','091','901','005')
+   and trunc(rn.prem_actural_date) between date '2024-09-22' and date '2024-09-22';
+ 
+ 
+ update hx_dm.index_y2008 a
+     set a.saledeptcode       = '86441972',
+         a.channel_type = '10',
+         a.salechnldetail = '10102',
+         a.agent_com      = '724419721001'
+  --a.agent_group = '724419721001' 以后需要用
+   where 1 = 1
+     and a.channel_type = '03'
+     and a.product_code in ('411405', '511208', '521505')
+     and a.saledeptcode like '864419%';
+ commit;
+  
+   update hx_dm.index_y2008 a
+     set a.saledeptcode       = '86440172',
+         a.channel_type = '10',
+         a.salechnldetail = '10103',
+         a.agent_com      = '724401721005'
+  --a.agent_group = '724401721005' 以后需要用
+   where 1 = 1
+     and a.channel_type = '03'
+     and a.product_code in ('411405', '521505')
+     and (a.saledeptcode like '8644%' and a.saledeptcode not like '864419%');   
+  commit;"
+原子指标,Y2009,预收保费,原子指标,/战略企划部/原子指标,预收保费指个险核心所有保单的预收保费；,预收日期，险种，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_bi.t_application_main，hx_nogg.uw_bpo_mission_state，hx_nogg.uw_apply_handin,"# Y2009 预收保费
+
+create table hx_dm.index_y2009 as
+     
+with mf_policy_product_prem_dx as (
+
+ select a.apply_no,
+         a.policy_no,
+         a.apply_bar_code,
+         b.prod_seq product_seq,
+         a.branch_code com_code,
+         b.period_standard_prem + b.period_weak_add_prem + b.period_occu_add_prem uw_prem,
+         a.channel_type,
+         a.frequency,
+         a.created_date,
+         b.product_code risk_code,
+         a.agent_com
+    from hx_nogg.uw_apply_info a
+    left join hx_nogg.uw_apply_product b
+      on a.apply_no = b.apply_no
+     and b.is_valid = 'Y'
+   where a.channel_type in ('04', '08', '10','03','09','02','05','06','07')
+   and exists (select 1 from  hx_dm.tmp_fact_olap_prem_his01_dx p where p.stepflag = '1' and p.apply_no = a.apply_no)
+)
+
+select m.fact_date,
+     com_code,
+     channel_type,
+     pay_code,
+     y2009,
+     policy_no,
+     product_seq,
+     product_code,
+     apply_no,
+     agent_com
+from (select a.policy_no,
+             a.product_seq,
+             a.risk_code product_code,
+             case
+               when a.apply_bar_code =
+                    (select distinct t.print_no
+                       from hx_bi.t_application_main t
+                      where t.print_no = a.apply_bar_code
+                        and t.designated_effective_date is not null) then
+                (select max(to_date(t.designated_effective_date,
+                                    'yyyy-mm-dd'))
+                   from hx_bi.t_application_main t
+                  where t.print_no = a.apply_bar_code
+                    and t.designated_effective_date is not null)
+               when z.delaydate is null and t.receive_date is null then
+                trunc(a.created_date)
+               when z.delaydate is null and t.receive_date is not null then
+                trunc(t.receive_date)
+               else
+                trunc(z.delaydate)
+             end /*receive_date*/ fact_date,
+             a.com_code,
+             a.channel_type ,
+             a.frequency pay_code,
+             a.uw_prem y2009,
+             a.apply_no,
+             a.agent_com
+        
+        from mf_policy_product_prem_dx a
+        left join (select a.bussno bussno, max(a.receive_date) receive_date
+                    from hx_nogg.uw_bpo_mission_state a
+                   where a.receive_date is not null
+                   group by a.bussno) t
+          on t.bussno = a.apply_bar_code
+        left join (select a.apply_bar_code, max(a.delaydate) delaydate
+                    from hx_nogg.uw_apply_handin a
+                   where a.delaydate is not null
+                   group by a.apply_bar_code) z
+          on z.apply_bar_code = a.apply_bar_code) m
+where m.fact_date between to_date('2024-09-22 00:00:00', 'yyyy-mm-dd hh24:mi:ss') and to_date('2024-09-22 23:59:59', 'yyyy-mm-dd hh24:mi:ss');
+
+ "
+派生指标,P2001,当日承保标准保费,派生指标,/战略企划部/派生指标,sum(承保标准保费)；统计承保日期在当日的保单；,险种，四级机构，缴费频率，缴费期限，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2001,暂无,hx_dm,hx_dm.index_y2001,"# P2001 当日承保标准保费
+
+create table hx_dm.index_p2001 as    
+
+select a.issue_date stat_date,
+       a.product_code,
+       a.saledeptcode,
+       a.frequency,
+       a.payyears2,
+       a.channel_type,
+       sum(a.y2001) p2001
+  from hx_dm.index_y2001 a
+ where a.issue_date  between date '2024-09-22' and date  '2024-09-22'  /*判断当日*/
+ group by a.issue_date,
+          a.product_code,
+          a.saledeptcode,
+          a.frequency,
+          a.payyears2,
+          a.channel_type;"
+派生指标,P2002,当日犹退标准保费,派生指标,/战略企划部/派生指标,sum(犹退标准保费)；统计犹退日期在当日的保单；,险种，四级机构，缴费频率，缴费期限，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2002,暂无,hx_dm,hx_dm.index_y2002,"# P2002 当日犹退标准保费
+
+create table hx_dm.index_p2002 as    
+
+select a.yt_date stat_date,
+       a.product_code,
+       a.saledeptcode,
+       a.frequency,
+       a.payyears2,
+       a.channel_type,
+       sum(a.y2002) p2002
+  from hx_dm.index_y2002 a
+ where a.yt_date  between date '2024-09-22' and date  '2024-09-22'  /*判断当日*/
+ group by a.yt_date,
+          a.product_code,
+          a.saledeptcode,
+          a.frequency,
+          a.payyears2,
+          a.channel_type;"
+派生指标,P2003,当日承保规模保费,派生指标,/战略企划部/派生指标,sum(承保规模保费)；统计承保日期在当日的保单；,险种，四级机构，缴费频率，缴费期限，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2003,暂无,hx_dm,hx_dm.index_y2003,"# P2003 当日承保规模保费
+
+create table hx_dm.index_p2003 as    
+
+select a.issue_date stat_date,
+       a.product_code,
+       a.saledeptcode,
+       a.frequency,
+       a.payyears2,
+       a.channel_type,
+       sum(a.y2003) p2003
+  from hx_dm.index_y2003 a
+ where a.issue_date  between date '2024-09-22' and date  '2024-09-22'  /*判断当日*/
+ group by a.issue_date,
+          a.product_code,
+          a.saledeptcode,
+          a.frequency,
+          a.payyears2,
+          a.channel_type;"
+派生指标,P2004,当日犹退规模保费,派生指标,/战略企划部/派生指标,sum(犹退规模保费)；统计犹退日期在当日的保单；,险种，四级机构，缴费频率，缴费期限，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2004,暂无,hx_dm,hx_dm.index_y2004,"# P2004 当日犹退规模保费
+
+create table hx_dm.index_p2004 as    
+
+select a.yt_date stat_date,
+       a.product_code,
+       a.saledeptcode,
+       a.frequency,
+       a.payyears2,
+       a.channel_type,
+       sum(a.y2004) p2004
+  from hx_dm.index_y2004 a
+ where a.yt_date  between date '2024-09-22' and date  '2024-09-22'  /*判断当日*/
+ group by a.yt_date,
+          a.product_code,
+          a.saledeptcode,
+          a.frequency,
+          a.payyears2,
+          a.channel_type;"
+派生指标,P2005,当日追加保费,派生指标,/战略企划部/派生指标,sum(追加保费)；统计费用追加日期在当日的保单；,险种，四级机构，缴费频率，缴费期限，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2005,暂无,hx_dm,hx_dm.index_y2005,"# P2005 当日追加保费
+
+create table hx_dm.index_p2005 as    
+
+select a.add_prem_date stat_date,
+       a.product_code,
+       a.saledeptcode,
+       a.frequency,
+       a.payyears2,
+       a.channel_type,
+       sum(a.y2005) p2005
+  from hx_dm.index_y2005 a
+ where a.add_prem_date  between date '2024-09-22' and date  '2024-09-22'  /*判断当日*/
+ group by a.add_prem_date,
+          a.product_code,
+          a.saledeptcode,
+          a.frequency,
+          a.payyears2,
+          a.channel_type;"
+派生指标,P2006,当日万能账户价值转入,派生指标,/战略企划部/派生指标,sum(万能账户价值转入)；统计费用转入日期在当日的保单；,险种，四级机构，缴费频率，缴费期限，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2006,暂无,hx_dm,hx_dm.index_y2006,"# P2006 当日万能账户价值转入
+
+create table hx_dm.index_p2006 as    
+
+select a.add_prem_date stat_date,
+       a.product_code,
+       a.saledeptcode,
+       a.frequency,
+       a.payyears2,
+       a.channel_type,
+       sum(a.y2006) p2006
+  from hx_dm.index_y2006 a
+ where a.add_prem_date  between date '2024-09-22' and date  '2024-09-22'  /*判断当日*/
+ group by a.add_prem_date,
+          a.product_code,
+          a.saledeptcode,
+          a.frequency,
+          a.payyears2,
+          a.channel_type;   "
+派生指标,P2007,当日首年续期保费,派生指标,/战略企划部/派生指标,sum(首年续期保费)；统计续期日期在当日的保单；,险种，四级机构，缴费频率，缴费期限，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2007,暂无,hx_dm,hx_dm.index_y2007,"# P2007 当日首年续期保费
+
+create table hx_dm.index_p2007 as    
+
+select a.add_prem_date stat_date,
+       a.product_code,
+       a.saledeptcode,
+       a.frequency,
+       a.payyears2,
+       a.channel_type,
+       sum(a.y2007) p2007
+  from hx_dm.index_y2007 a
+ where a.add_prem_date  between date '2024-09-22' and date  '2024-09-22'  /*判断当日*/
+ group by a.add_prem_date,
+          a.product_code,
+          a.saledeptcode,
+          a.frequency,
+          a.payyears2,
+          a.channel_type; "
+派生指标,P2008,当日续年续期保费,派生指标,/战略企划部/派生指标,sum(续年续期保费)；统计续期日期在当日的保单；,险种，四级机构，缴费频率，缴费期限，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2008,暂无,hx_dm,hx_dm.index_y2008,"# P2008 当日续年续期保费
+
+create table hx_dm.index_p2008 as    
+
+select a.add_prem_date stat_date,
+       a.product_code,
+       a.saledeptcode,
+       a.frequency,
+       a.payyears2,
+       a.channel_type,
+       sum(a.y2008) p2008
+  from hx_dm.index_y2008 a
+ where a.add_prem_date  between date '2024-09-22' and date  '2024-09-22'  /*判断当日*/
+ group by a.add_prem_date,
+          a.product_code,
+          a.saledeptcode,
+          a.frequency,
+          a.payyears2,
+          a.channel_type; "
+派生指标,P2009,当日预收保费,派生指标,/战略企划部/派生指标,sum(预收保费)；统计预收日期在当日的保单；,险种，四级机构，缴费频率，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2009,暂无,hx_dm,hx_dm.index_y2009,"# P2009 当日预收保费
+
+create table hx_dm.index_p2009 as    
+
+select a.fact_date stat_date,
+       a.product_code,
+       a.com_code,
+       a.pay_code,
+       a.channel_type,
+       sum(a.y2009) p2009
+  from hx_dm.index_y2009 a
+ where a.fact_date  between date '2024-09-22' and date  '2024-09-22'  /*判断当日*/
+ group by a.fact_date,
+          a.product_code,
+          a.com_code,
+          a.pay_code,
+          a.channel_type; "
+复合指标,F2001,当日标准保费,复合指标,/战略企划部/复合指标,当日标准保费 = 当日承保标准保费 - 当日犹退标准保费,日期,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,P2001，P2002,暂无,hx_dm,hx_dm.index_p2001，hx_dm.index_p2002,"# F2001 当日标准保费
+# f2001 = p2001 + p2002
+
+select stat_date,sum(f2001) f2001 
+from (                 
+select stat_date,product_code,saledeptcode,frequency,payyears2,channel_type,p2001 f2001
+from hx_dm.index_p2001 a  /*p2001*/
+union all        
+select stat_date,product_code,saledeptcode,frequency,payyears2,channel_type,-p2002 f2001
+from hx_dm.index_p2002 a  /*p2002*/
+) group by stat_date;"
+复合指标,F2002,当日首年保费,复合指标,/战略企划部/复合指标,当日首年保费 = 当日承保规模保费 - 当日犹退规模保费 + 当日追加保费 + 当日万能账户价值转入 + 当日续年续期保费,日期，缴费频率,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,P2003，P2004，P2005，P2006，P2007,暂无,hx_dm,hx_dm.index_p2003，hx_dm.index_p2004，hx_dm.index_p2005，hx_dm.index_p2006，hx_dm.index_p2007,"# F2002 当日首年保费
+# f2002 = p2003 - p2004 + p2005 + p2006
+
+create table hx_dm.index_f2002 as
+
+select stat_date,frequency,sum(f2002) f2002
+from (                 
+select stat_date,product_code,saledeptcode,frequency,payyears2,channel_type,p2003 f2002
+from hx_dm.index_p2003 a  /*p2003*/
+union all        
+select stat_date,product_code,saledeptcode,frequency,payyears2,channel_type,-p2004 f2002
+from hx_dm.index_p2004 a  /*p2004*/
+union all        
+select stat_date,product_code,saledeptcode,frequency,payyears2,channel_type,p2005 f2002
+from hx_dm.index_p2005 a  /*p2005*/
+union all        
+select stat_date,product_code,saledeptcode,frequency,payyears2,channel_type,p2006 f2002
+from hx_dm.index_p2006 a  /*p2006*/
+union all        
+select stat_date,product_code,saledeptcode,frequency,payyears2,channel_type,p2007 f2002
+from hx_dm.index_p2007 a  /*p2007*/
+) group by stat_date,frequency;"
+复合指标,F2003,当日总保费,复合指标,/战略企划部/复合指标,当日总保费 = 当日首年保费 + 当日续年续期保费,日期,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,F2002，P2008,暂无,hx_dm,hx_dm.index_f2002，hx_dm.index_p2008,"# F2003 当日总保费
+# f2003 = f2002 + p2008
+
+select stat_date,sum(f2003) f2003
+from (                 
+select stat_date,f2002 f2003 from hx_dm.index_f2002 a  /*f2002*/
+union all        
+select stat_date,sum(p2008) f2003 from hx_dm.index_p2008 a  group by stat_date /*p2008*/
+) group by stat_date;"
+复合指标,F2004,当日首年年化保费,复合指标,/战略企划部/复合指标,当日首年年化保费 = 当日首年保费（趸交和年缴）+ 年化当日承保规模保费（非趸交和年缴）- 年化当日犹退规模保费（非趸交和年缴）,日期,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,F2002，P2003，P2004,暂无,hx_dm,hx_dm.index_f2002，hx_dm.index_p2003，hx_dm.index_p2004,"# F2004 当日首年年化保费
+# f2004 = f2002 + p2003 + p2004
+
+select stat_date,sum(f2004) f2004 from (
+select b.stat_date,sum(f2002) f2004 from hx_dm.index_f2002 b where b.frequency in ('0', '12') group by b.stat_date
+union all
+select b.stat_date,sum(case
+             when b.frequency = 1 then
+              b.p2003 * 12
+             when b.frequency = 3 then
+              b.p2003 * 4
+             when b.frequency = 6 then
+              b.p2003 * 2
+           end) f2004
+  from hx_dm.index_p2003 b
+ where b.frequency not in ('0', '12') group by b.stat_date
+union all
+select b.stat_date,-sum(case
+             when b.frequency = 1 then
+              b.p2004 * 12
+             when b.frequency = 3 then
+              b.p2004 * 4
+             when b.frequency = 6 then
+              b.p2004 * 2
+           end) f2004
+  from hx_dm.index_p2004 b
+ where b.frequency not in ('0', '12') group by b.stat_date
+) group by stat_date;"
