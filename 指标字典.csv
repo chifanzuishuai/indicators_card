@@ -452,7 +452,7 @@ with tmp_lyb_yxfyb_zb1_02 as
        on m3.agentcode = m1.agent_no
    /*where m1.apply_bar_code = '2010011008534407'*/
    ;"
-原子指标,Y1007,首年续期规模保费,原子指标,/营销事业群/原子指标,"首年续期规模保费指保单在首个保单年度内，除首次缴费外，缴费类型不在（'02F', '12F', '03F', '13F'）所缴的费用；仅统计短期险或险种为('121704', '121705', '121707')的保单；且将以下险种 ('111801','121704','121705','121809', '211612','221806','221808','511801','111604','121810', '121811','121706', '411701')的缴费频次置为趸交；",缴费日期，险种，险种状态，四级机构，缴费频率，缴费年期,元,2,实时,营销事业群,S,1,待定,营销事业群,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_nogg.rn_paid_info，hx_nogg.fin_amt_type，hx_xgogg.laagent，hx_fyb.d_product,"# Y1007 首年续期规模保费
+原子指标,Y1007,首年续期规模保费,原子指标,/营销事业群/原子指标,"首年续期规模保费指保单在首个保单年度内，除首次缴费外，缴费类型不在（'02F', '12F', '03F', '13F'）所缴的费用；仅统计短期险或险种为('121704', '121705', '121707')的保单；且将以下险种 ('111801','121704','121705','121809', '211612','221806','221808','511801','111604','121810', '121811','121706', '411701')的缴费频次置为趸交；",缴费日期，险种，险种状态，四级机构，缴费频率，缴费年期,元,2,实时,营销事业群,各部门,1,待定,营销事业群,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_nogg.rn_paid_info，hx_nogg.fin_amt_type，hx_xgogg.laagent，hx_fyb.d_product,"# Y1007 首年续期规模保费
 
 create table hx_dm.index_y1007  as
 
@@ -502,7 +502,7 @@ select  /*+parallel(16)*/m1.policy_no,
   left join hx_xgogg.laagent m3 on m3.agentcode = m1.agent_no
   left join hx_fyb.d_product d on d.product_code = m1.product_code
  where 1 = 1
-   and rn.amt_type in ('02F','03F','12F',13F','105','320','191','801','220','091','901','005')
+   and rn.amt_type in ('02F','03F','12F','13F','105','320','191','801','220','091','901','005')
    and trunc(rn.prem_actural_date) between date '2024-9-5' and date '2024-9-5'
    and (d.description2 = '短期险' or d.product_code in ('121704', '121705', '121707'))
    /*and rn.policy_no ='8808125858923188'*/
