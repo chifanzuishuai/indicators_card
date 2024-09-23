@@ -452,7 +452,7 @@ with tmp_lyb_yxfyb_zb1_02 as
        on m3.agentcode = m1.agent_no
    /*where m1.apply_bar_code = '2010011008534407'*/
    ;"
-原子指标,Y1007,首年续期规模保费,原子指标,/营销事业群/原子指标,"首年续期规模保费指保单在首个保单年度内，除首次缴费外，缴费类型不在（'02F', '12F', '03F', '13F'）所缴的费用；仅统计短期险或险种为('121704', '121705', '121707')的保单；且将以下险种 ('111801','121704','121705','121809', '211612','221806','221808','511801','111604','121810', '121811','121706', '411701')的缴费频次置为趸交；",缴费日期，险种，险种状态，四级机构，缴费频率，缴费年期,元,2,实时,营销事业群,各部门,1,待定,营销事业群,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_nogg.rn_paid_info，hx_nogg.fin_amt_type，hx_xgogg.laagent，hx_fyb.d_product,"# Y1007 首年续期规模保费
+原子指标,Y1007,首年续期规模保费,原子指标,/营销事业群/原子指标,"首年续期规模保费指保单在首个保单年度内，除首次缴费外，缴费类型不在（'02F', '12F', '03F', '13F'）所缴的费用；仅统计短期险或险种为('121704', '121705', '121707')的保单；且将以下险种 ('111801','121704','121705','121809', '211612','221806','221808','511801','111604','121810', '121811','121706', '411701')的缴费频次置为趸交；",缴费日期，险种，险种状态，四级机构，缴费频率，缴费年期,元,2,实时,营销事业群,S,1,待定,营销事业群,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_nogg.rn_paid_info，hx_nogg.fin_amt_type，hx_xgogg.laagent，hx_fyb.d_product,"# Y1007 首年续期规模保费
 
 create table hx_dm.index_y1007  as
 
@@ -491,7 +491,7 @@ select  /*+parallel(16)*/m1.policy_no,
        m1.prem_period,
        case
          when rn.coverage_year <= 1 and rn.actural_pay_times >= 2 and
-              rn.amt_type not in ('02f', '12f', '03f', '13f') then
+              rn.amt_type not in ('02F', '12F', '03F', '13F') then
           modal_total_prem * to_number(m2.payment_flag)
          else
           0
@@ -502,6 +502,7 @@ select  /*+parallel(16)*/m1.policy_no,
   left join hx_xgogg.laagent m3 on m3.agentcode = m1.agent_no
   left join hx_fyb.d_product d on d.product_code = m1.product_code
  where 1 = 1
+   and rn.amt_type in ('02F','03F','12F',13F','105','320','191','801','220','091','901','005')
    and trunc(rn.prem_actural_date) between date '2024-9-5' and date '2024-9-5'
    and (d.description2 = '短期险' or d.product_code in ('121704', '121705', '121707'))
    /*and rn.policy_no ='8808125858923188'*/
@@ -511,7 +512,6 @@ select  /*+parallel(16)*/m1.policy_no,
  where a.product_code in ('111801','121704','121705','121809', '211612','221806','221808','511801','111604','121810', '121811','121706', '411701');
  commit;
  "
-原子指标,Y1008,续年续期规模保费,原子指标,,,,,,,,,,,,,,,,,,,
 原子指标,Y1009,追加保费,原子指标,/营销事业群/原子指标,"追加保费指根据保单保全追加保费的时间统计追加的费用；不统计趸交保单的情况；且将以下险种 ('111801','121704','121705','121809', '211612','221806','221808','511801','111604','121810', '121811','121706', '411701')的缴费频次置为趸交；",追加保费日期，险种，险种状态，四级机构，缴费频率，缴费年期,元,2,实时,营销事业群,各部门,1,待定,营销事业群,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.pos_accept_detail，hx_nogg.pos_info，hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_xgogg.laagent,"# Y1009 追加保费
 
 create table hx_dm.index_y1009  as
@@ -539,7 +539,7 @@ with tmp_lyb_yxfyb_zb1_06 as  (
              and pi.pos_no = pp.pos_no
              and pi.policy_no = p.policy_no
              and pi.service_items = '35'
-             and pi.accept_status_code = 'e01'
+             and pi.accept_status_code = 'E01'
              and pp.pos_object = '1'
              and pp.item_no in ('099', '100', '045')
              and p.channel_type in ('02', '05', '06')
@@ -592,7 +592,6 @@ select  /*+parallel(16)*/m1.policy_no,
 update hx_dm.index_y1009 a set a.frequency = '0' 
 where a.product_code in ('111801','121704','121705','121809', '211612','221806','221808','511801','111604','121810', '121811','121706', '411701');
 commit; "
-原子指标,Y1010,生存金保费,原子指标,,,,,,,,,,,,,,,,,,,
 原子指标,Y1011,微投规模保费,原子指标,/营销事业群/原子指标,微投规模保费指微投未进核心保单的规模保费；,预收日期，险种，险种状态，四级机构，缴费频率，缴费年期,元,2,实时,营销事业群,各部门,1,待定,营销事业群,李艳斌,待定,不取整,无,暂无,微投，个险核心,hx_fyb.t_application_main，hx_nogg.uw_apply_info，hx_fyb.t_application_product，hx_xgogg.laagent，hx_nogg.uw_apply_info,"# Y1011 微投规模保费
 
 create table hx_dm.index_y1011  as
@@ -1272,3 +1271,25 @@ union all
 select stat_date,product_code,apply_status_code,saledeptcode,frequency,prem_period,-p1016 f1006
 from hx_dm.index_p1016 a  /*p1016*/
 ) group by stat_date;"
+原子指标,Y2001,承保标准保费,原子指标,/战略企划部/原子指标,承保标准保费指承保保单的标准保费；承保日期取与延迟承保两者中较大的值；,承保日期，险种，缴费期限，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_nogg.policy_product_prem，hx_nogg.uw_apply_incept，hx_nogg.uw_apply_handin,
+原子指标,Y2002,犹退标准保费,原子指标,/战略企划部/原子指标,犹退标准保费指保单犹豫期退保所退的保费；若犹豫期退保日期小于保单生效日期则选取保单生效日期，否则选取其本身；其中保单生效日期考虑了延迟生效的情况；,犹退日期，险种，缴费期限，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,"hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_nogg.policy_product_prem，hx_nogg.uw_apply_incept，hx_nogg.uw_apply_handin，hx_nogg.pos_info,，hx_nogg.pos_accept_detail",
+原子指标,Y2003,承保规模保费,原子指标,/战略企划部/原子指标,"承保规模保费指承保保单的期缴标准保费,期缴弱体加费,期缴职业加费之和；承保日期取与延迟承保两者中较大的值；",承保日期，险种，缴费期限，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_nogg.policy_product_prem，hx_nogg.uw_apply_incept，hx_nogg.uw_apply_handin,
+原子指标,Y2004,犹退规模保费,原子指标,/战略企划部/原子指标,犹退规模保费指保单犹豫期退保所退的保费；若犹豫期退保日期小于保单生效日期则选取保单生效日期，否则选取其本身；其中保单生效日期考虑了延迟生效的情况；,犹退日期，险种，缴费期限，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,"hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_nogg.policy_product_prem，hx_nogg.uw_apply_incept，hx_nogg.uw_apply_handin，hx_nogg.pos_info,，hx_nogg.pos_accept_detail",
+原子指标,Y2005,追加保费,原子指标,/战略企划部/原子指标,追加保费指根据保单保全追加保费的时间统计追加的费用；,追加日期，险种，缴费期限，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.pos_accept_detail，hx_nogg.pos_info，hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.policy_product_prem,
+原子指标,Y2006,万能账户价值转入,原子指标,/战略企划部/原子指标,万能账户追加转入指根据保单保追加保费转入的时间统计追加的费用；,追加日期，险种，缴费期限，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.rn_paid_info，hx_nogg.fin_amt_type，hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.policy_product_prem,
+原子指标,Y2007,首年续期保费,原子指标,/战略企划部/原子指标,"首年续期规模保费指保单在首个保单年度内，除首次缴费外，缴费类型不在（'02F', '12F', '03F', '13F'），且将以下险种 ('111801','121704','121705','121809', '211612','221806','221808','511801','111604','121810', '121811','121706', '411701')的缴费频次置为趸交；",续期日期，险种，缴费期限，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.rn_paid_info，hx_nogg.fin_amt_type，hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.policy_product_prem,
+原子指标,Y2008,续年续期保费,原子指标,/战略企划部/原子指标,"续年续期规模保费指保单在首个保单年度外的保费，且将以下险种 ('111801','121704','121705','121809', '211612','221806','221808','511801','111604','121810', '121811','121706', '411701')的缴费频次置为趸交；",续期日期，险种，缴费期限，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.rn_paid_info，hx_nogg.fin_amt_type，hx_nogg.policy，hx_nogg.policy_product，hx_nogg.uw_apply_info，hx_nogg.policy_product_prem,
+原子指标,Y2009,预收保费,原子指标,/战略企划部/原子指标,预收保费指个险核心所有保单的预收保费；,预收日期，险种，缴费频率，渠道类型，四级机构,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,无,暂无,个险核心,hx_nogg.uw_apply_info，hx_nogg.uw_apply_product，hx_bi.t_application_main，hx_nogg.uw_bpo_mission_state，hx_nogg.uw_apply_handin,
+派生指标,P2001,当日承保标准保费,派生指标,/战略企划部/派生指标,sum(承保标准保费)；统计承保日期在当日的保单；,险种，四级机构，缴费频率，缴费期限，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2001,暂无,hx_dm,hx_dm.index_y2001,
+派生指标,P2002,当日犹退标准保费,派生指标,/战略企划部/派生指标,sum(犹退标准保费)；统计犹退日期在当日的保单；,险种，四级机构，缴费频率，缴费期限，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2002,暂无,hx_dm,hx_dm.index_y2002,
+派生指标,P2003,当日承保规模保费,派生指标,/战略企划部/派生指标,sum(承保规模保费)；统计承保日期在当日的保单；,险种，四级机构，缴费频率，缴费期限，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2003,暂无,hx_dm,hx_dm.index_y2003,
+派生指标,P2004,当日犹退规模保费,派生指标,/战略企划部/派生指标,sum(犹退规模保费)；统计犹退日期在当日的保单；,险种，四级机构，缴费频率，缴费期限，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2004,暂无,hx_dm,hx_dm.index_y2004,
+派生指标,P2005,当日追加保费,派生指标,/战略企划部/派生指标,sum(追加保费)；统计费用追加日期在当日的保单；,险种，四级机构，缴费频率，缴费期限，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2005,暂无,hx_dm,hx_dm.index_y2005,
+派生指标,P2006,当日万能账户价值转入,派生指标,/战略企划部/派生指标,sum(万能账户价值转入)；统计费用转入日期在当日的保单；,险种，四级机构，缴费频率，缴费期限，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2006,暂无,hx_dm,hx_dm.index_y2006,
+派生指标,P2007,当日首年续期保费,派生指标,/战略企划部/派生指标,sum(首年续期保费)；统计续期日期在当日的保单；,险种，四级机构，缴费频率，缴费期限，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2007,暂无,hx_dm,hx_dm.index_y2007,
+派生指标,P2008,当日续年续期保费,派生指标,/战略企划部/派生指标,sum(续年续期保费)；统计续期日期在当日的保单；,险种，四级机构，缴费频率，缴费期限，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2008,暂无,hx_dm,hx_dm.index_y2008,
+派生指标,P2009,当日预收保费,派生指标,/战略企划部/派生指标,sum(预收保费)；统计预收日期在当日的保单；,险种，四级机构，缴费频率，渠道类型,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,Y2009,暂无,hx_dm,hx_dm.index_y2009,
+复合指标,F2001,当日标准保费,复合指标,/战略企划部/复合指标,当日标准保费 = 当日承保标准保费 - 当日犹退标准保费,日期,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,P2001，P2002,暂无,hx_dm,hx_dm.index_p2001，hx_dm.index_p2002,
+复合指标,F2002,当日首年保费,复合指标,/战略企划部/复合指标,当日首年保费 = 当日承保规模保费 - 当日犹退规模保费 + 当日追加保费 + 当日万能账户价值转入 + 当日续年续期保费,日期，缴费频率,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,P2003，P2004，P2005，P2006，P2007,暂无,hx_dm,hx_dm.index_p2003，hx_dm.index_p2004，hx_dm.index_p2005，hx_dm.index_p2006，hx_dm.index_p2007,
+复合指标,F2003,当日总保费,复合指标,/战略企划部/复合指标,当日总保费 = 当日首年保费 + 当日续年续期保费,日期,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,F2002，P2008,暂无,hx_dm,hx_dm.index_f2002，hx_dm.index_p2008,
+复合指标,F2004,当日首年年化保费,复合指标,/战略企划部/复合指标,当日首年年化保费 = 当日首年保费（趸交和年缴）+ 年化当日承保规模保费（非趸交和年缴）- 年化当日犹退规模保费（非趸交和年缴）,日期,元,2,实时,战略企划部,各部门,1,待定,战略企划部,李艳斌,待定,不取整,F2002，P2003，P2004,暂无,hx_dm,hx_dm.index_f2002，hx_dm.index_p2003，hx_dm.index_p2004,
