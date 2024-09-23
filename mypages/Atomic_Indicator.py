@@ -9,19 +9,26 @@ def use_atomic_indicator():
 
     df_database = pd.read_csv("./指标字典.csv")
 
-    selected_index_name = df_database[df_database['指标类型'] == '原子指标']['指标名称']
+    selected_department_name = df_database[df_database['指标类型'] == '原子指标']['归属部门'].unique()
 
-    row1_1, row1_2 ,row1_3= st.columns(3)
+    row1_1, row1_2 = st.columns(2)
 
     with row1_1:
+        selected_department = st.selectbox(
+            "Which department do you want to choose?",
+            selected_department_name
+         )
+
+    selected_index_name = df_database[(df_database['指标类型'] == '原子指标') &  (df_database['归属部门'] == selected_department)]['指标名称']
+
+    with row1_2:
         selected_name = st.selectbox(
             "Which indicator do you want to choose?",
             selected_index_name
-            
-        )
+         )
     
     # 筛选后指标信息
-    index_value = df_database[(df_database['指标类型'] == '原子指标') & (df_database['指标名称'] == selected_name)]
+    index_value = df_database[(df_database['指标类型'] == '原子指标') & (df_database['指标名称'] == selected_name) & (df_database['归属部门'] == selected_department)]
 
     # 基础属性
     sac.divider(label='基础属性', icon='house', align='center', color='gray',size= 'xs')
