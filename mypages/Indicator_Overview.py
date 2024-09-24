@@ -1,7 +1,6 @@
 import streamlit as st
 import math
 import pandas as pd
-from random import random, choice
 from streamlit_modal import Modal
 
 
