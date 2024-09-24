@@ -5,5 +5,4 @@ streamlit_option_menu
 pyecharts
 streamlit_echarts
 openpyxl
-math
 streamlit_modal
