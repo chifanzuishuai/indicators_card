@@ -6,8 +6,7 @@ from mypages.Derived_Indicator import use_derived_indicator   # 派生指标页�
 from mypages.Composite_Indicator import use_composite_indicator   # 复合指标页面
 from mypages.Coding_specifications import use_coding_specifications
 from mypages.Relationship_Graph import use_Relationship_Graph
-
-
+from mypages.Indicator_Overview import use_indicator_overview
 
 
 st.set_page_config(
@@ -42,6 +41,7 @@ with st.sidebar.container():
             sac.MenuItem('相关概念'),
             sac.MenuItem('指标编码规范'),
             sac.MenuItem('指标关系图'),
+            sac.MenuItem('指标概览'),
         ]),
         sac.MenuItem('indicators', icon='app-indicator', children=[
             sac.MenuItem('原子指标'),
@@ -70,6 +70,9 @@ elif menu == '指标编码规范':
 
 elif menu == '指标关系图':    
     use_Relationship_Graph()
+
+elif menu == '指标概览':    
+    use_indicator_overview()
     
 elif menu == '原子指标':    
     use_atomic_indicator()
