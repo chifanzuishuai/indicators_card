@@ -17,6 +17,12 @@ def use_indicator_overview():
         elif value == 2:
             st.session_state.page = 0
 
+    if 'cmpage' not in st.session_state:  
+        st.session_state['cmpage'] = 1  # 或者其他合适的默认值 
+    
+    if 'select_row' not in st.session_state:  
+        st.session_state['select_row'] = 10
+
     # 构建分页管理
     if 'page' not in st.session_state:
         st.session_state['select_row'] = 10
@@ -28,6 +34,7 @@ def use_indicator_overview():
 
     page = page #页码数
     limit = st.session_state.select_row #每页的数据量
+    # limit = st.session_state.select_row if 'select_row' in st.session_state else 10
 
     # 数据初始化
     if 'data' not in st.session_state:
@@ -68,7 +75,7 @@ def use_indicator_overview():
     col7_head.selectbox(
         label='单页行数',
         options=[1, 5, 10, 20, 50],
-        index=1,
+        index=2,
         key='select_row',
         on_change=lambda : True,
         disabled=False,
